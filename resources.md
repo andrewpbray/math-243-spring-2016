@@ -12,6 +12,6 @@ permalink: /resources/
 
 
 ### R
-- datacamp
+- datacamp course
 - rstudio cheatsheets
 - how to get set up on your own machine
