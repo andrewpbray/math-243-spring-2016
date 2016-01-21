@@ -1,6 +1,7 @@
+_site/
+.sass-cache
 .Rproj.user
 .Rhistory
 .RData
 .Ruserdata
 math-243.Rproj
-_site
