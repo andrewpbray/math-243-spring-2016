@@ -23,20 +23,12 @@ of applications from the natural and social sciences will be used.
 [Andrew Bray](https://andrewpbray.github.io)  
 Office: Library 304
 
-[Chester Ismay](https://www.reed.edu/cis/about/staff/ismay.html)  
-Office: ETC 223
-
-**DoJo**  
-Sunday  
-Wednesday  
-Thursday
 
 ### Textbook
-
-[OpenIntro: Introductory Statistics with Randomization and Simulation](https://www.openintro.org/stat/textbook.php?stat_book=isrs) (2014),
-by Diez, Barr and Çetinkaya-Rundel, available in three formats: pdf, 
-tablet-friendly pdf, and paperback edition. The textbook is free and open-source,
-but you're encouraged to purchase the paperback edition through amazon for < $10.
+[An Introduction to Statistical Learning](http://www-bcf.usc.edu/~gareth/ISL/ISLR%20Sixth%20Printing.pdf) (2013),
+by James, Witten, Hastie, and Tibshirani. The pdf is available for free and the
+printed book is available from the bookstore for $60. This book is excellent and
+I recommend having a hardcopy on hand.
 
 The textbook is a key component of the course. Our class will maintain a reading
 group at [nb.mit.edu](http://nb.mit.edu), which provides us with a 
@@ -63,5 +55,5 @@ Friday, February 26 2016
 Friday, April 8th (takehome)
 
 **Final**  
-Wednesday, May 10, 2016, 9 AM - noon
+Thursday, May 12, 2016, 1 PM - 4 PM
 
