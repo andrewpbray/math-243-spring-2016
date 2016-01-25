@@ -15,4 +15,4 @@ RMarkdown document. You should complete work on your lab by **Tuesday** at 11:59
 
 ### Labs
 
-1. [Intro to R and RStudio](lab1.html)
+1. Intro to R and RStudio
