@@ -4,6 +4,9 @@ title: Syllabus
 permalink: /syllabus/
 ---
 
+Statistical Learning is a field that ties together statistical theory and practice
+with the methods of machine learning have emerged in the last several decades.
+
 This course is geared towards students with the following experience.
 
 - Exposure and understanding of the fundamental concepts of linear regression: 
@@ -14,12 +17,14 @@ will be easy enough to learn if you've worked before with Python, Java, Matlab,
 etc.
 
 If you've taken Math 141, you have these bases covered. In terms of the
-mathematical notation, we will be using the vector/matrix formulation in places.
+mathematical notation, we will be using the vector/matrix formulation in places,
+though knowledge of linear algebra is not necessary. 
 
 
 ### Contact
 [Andrew Bray](https://andrewpbray.github.io)  
-Office: Library 304
+Office: Library 304  
+Office hours: Tuesday 4-5, Thursday 3-4
 
 
 ### Textbook
