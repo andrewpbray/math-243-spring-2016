@@ -15,4 +15,4 @@ RMarkdown document. You should complete work on your lab by **Tuesday** at 11:59
 
 ### Labs
 
-1. <a href = "{{ site.baseurl }}/assets/week-01/lab/lab-1.html" target = "_blank">Intro to R</a> (<a href = "{{ site.baseurl }}/assets/week-01/lab/lab1-report.Rmd" target = "_blank">template</a>)
+1. <a href = "{{ site.baseurl }}/assets/week-01/lab/lab-1.html" target = "_blank">Intro to R</a> (<a href = "{{ site.baseurl }}/assets/week-01/lab/lab-1-template.Rmd" target = "_blank">template</a>)
