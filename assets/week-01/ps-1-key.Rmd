@@ -1,0 +1,126 @@
+---
+layout: page
+title: Problem Set 1 Key
+permalink: /problem-sets/
+published: FALSE
+output: 
+  html_document: 
+    highlight: pygments
+    theme: spacelab
+---
+
+#### Chapter 2 exercises
+1. 
+    a. With lots of data, a more flexible method would likely be better. There less
+    danger that you would end up modeling noise, i.e. overfitting is more difficult.
+    b. With lots of variables, there is a serious danger of overfitting, so we'll
+    want to use an inflexible method to help constrain all the possible models
+    that we could fit.
+    c. With highly non-linear relationships, we'd need to allow for a certain
+    degree of flexibility in order to capture that structure.
+    d. If the variance of the error term is high, there is a danger that a flexible
+    method would model the random error (overfitting) instead of the systematic
+    variation. Because of this, we'd want an inflexible method.
+    
+2. 
+    a. Regression, inference, $n = 500$, $p = 3$ (the response/output, CEO salary,
+    is generally not included in $p$).
+    b. Classification, prediction, $n = 20$, $p = 13$.
+    c. Regression, prediction, $n = 52$ (weeks), $p = 3$.
+    
+3. Skip
+    
+4. Examples will vary widely.
+
+5. Flexible approaches are useful when you have a highly non-linear $f$ as well
+as when you have lots of $n$ relative to $p$. In essence, if the true $f$ is 
+complex, and you have a sufficient amount of data to resolve it, a flexible
+model will lead to better predictions. In situations where a large $p$ leads to
+a huge number of possible models, it can be helpful to restrict the model
+space with a less flexible method. Less flexible methods often lead to more easily
+interpretable models, which is very important if you're interesting in inference.
+
+6. Parametric approaches put constraints on the functional form of $f$ and thus
+help guard against overfitting. The parameter estimates are also often fairly
+interpretable, which is useful if you're interested in inference. When the 
+structure in the data is complex, however, parametric approaches can exhibit
+systematic bias (effectively underfitting).
+
+7. The following R code shows one of many ways that you could calculate the 
+distances from the test point to all of the previous. This approach enters the
+other points as a matrix, `X`, with the test point as the bottom row. The `dist()`
+function computes a distance matrix for each pairwise distance between the rows
+(see `?dist` for more info). We then pull off all of the pairwise distance for the
+column that corresponds to the test point.
+
+```{r ex7}
+X <- matrix(c(0, 3, 0, 
+              2, 0, 0, 
+              0, 1, 3, 
+              0, 1, 2,
+              -1, 0, 1, 
+              1, 1, 1,
+              0, 0, 0), ncol = 3, byrow = TRUE)
+d_mat <- as.matrix(dist(X))
+d_mat[, 7]
+```
+
+7. 
+    b. For $K = 1$, we classify the test point by the $Y$ value of the one
+    nearest neighbor. The nearest neighbor is obs. 5, so we assign the test point
+    the value of `Green`.
+    c. For $K = 3$, we look to the 3 nearest neighbors, obs. 2, 5, and 6, which 
+    are `Red`, `Green`, and `Red`, respectively. Our prediction for the test 
+    point is `Red` as that is the modal value of the neighbors.
+    d. If the Bayes decision boundary is highly non-linear, then we'd expect a
+    smaller $K$ to do a better job of replicating that irregular boundary. A large
+    value of $K$ would essentially oversmooth the boundary, eventually becoming
+    linear.
+
+
+#### Additional exercises
+**Input**: $X$ is usually written as $n$ by $p$. Here, $n = 10$ and $p = 64^2 = 4096$, the total number of pixels in each photo.
+
+$$
+X = 
+ \begin{pmatrix}
+  x_{1,1} & x_{1,2} & \cdots & x_{1,4096} \\
+  x_{2,1} & x_{2,2} & \cdots & x_{2,4096} \\
+  \vdots  & \vdots  & \ddots & \vdots  \\
+  x_{10,1} & x_{10,2} & \cdots & x_{10,4096} 
+ \end{pmatrix}
+$$
+    
+**Transformed Input**: Most of the information in those 4096 pixels is likely
+encoded in a smaller number of features, $m$.
+
+$$
+X^{*} = 
+ \begin{pmatrix}
+  x_{1,1} & x_{1,2} & \cdots & x_{1,m} \\
+  x_{2,1} & x_{2,2} & \cdots & x_{2,m} \\
+  \vdots  & \vdots  & \ddots & \vdots  \\
+  x_{10,1} & x_{10,2} & \cdots & x_{10,m} 
+ \end{pmatrix}
+$$
+
+**Output**: A single vector of length $n$.
+
+$$
+Y = 
+ \begin{pmatrix}
+  y_{1} \\
+  y_{2} \\
+  \vdots  \\
+  y_{10}
+ \end{pmatrix}
+$$
+
+
+**Model**: One simple $f$ would be a linear model on the transformed input.
+
+$$
+Y = \beta_0 + \beta_1 X_1^{*} + \beta_2 X_2^{*} + \ldots + \beta_m X_m^{*} + \epsilon
+$$
+    
+    
