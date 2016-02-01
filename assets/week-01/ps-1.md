@@ -1,7 +1,8 @@
 ---
 layout: page
 title: Problem Set 1
-permalink: /problem-sets/ps-1
+permalink: /problem-sets/
+published: FALSE
 ---
 
 #### Chapter 2 exercises
