@@ -2,7 +2,6 @@
 layout: page
 title: Problem Set 1
 permalink: /problem-sets/
-published: false
 ---
 
 #### Chapter 2 exercises
