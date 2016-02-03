@@ -10,7 +10,7 @@ output:
 ---
 
 #### Chapter 3 exercises
-1, 5, 6, 7
+1, 5, 7
 
 #### Additional exercises
 1. **Challenge problem**: Use the identities for expected value and variance to
