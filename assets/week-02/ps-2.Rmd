@@ -14,5 +14,7 @@ output:
 
 #### Additional exercises
 1. **Challenge problem**: Use the identities for expected value and variance to derive the bias-variance decomposition of $E\left[ \left(y - \hat{f}(x) \right)^2 \right]$.
-    
+
+- $E(c) = c$, where $c$ is a constant.
+- $Var(X) = E(X^2) - [E(X)]^2$
     
