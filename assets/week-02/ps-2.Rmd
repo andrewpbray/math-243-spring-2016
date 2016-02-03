@@ -10,10 +10,9 @@ output:
 ---
 
 #### Chapter 3 exercises
-1, 5, 7
+1, 4, 5, 6
 
 #### Additional exercises
-1. **Challenge problem**: Use the identities for expected value and variance to
-derive the bias-variance decomposition of $E\left[ \left(y - \hat{f}(x) \right)^2 \right]$.
+1. **Challenge problem**: Use the identities for expected value and variance to derive the bias-variance decomposition of $E\left[ \left(y - \hat{f}(x) \right)^2 \right]$.
     
     
