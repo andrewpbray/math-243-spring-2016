@@ -1,6 +1,5 @@
 ---
 title: "Lab 2: Linear Regression"
-author: "your names"
 output: 
   html_document: 
     highlight: pygments
