@@ -19,4 +19,4 @@ RMarkdown document. You should complete work on your lab by **Tuesday** at 11:59
 
 1. <a href = "{{ site.baseurl }}/assets/week-01/lab/lab-1.html" target = "_blank">Intro to R</a> (<a href = "{{ site.baseurl }}/assets/week-01/lab/lab-1-template.Rmd" target = "_blank">template</a>)
 
-2. <a href = "{{ site.baseurl }}/assets/week-01/lab-2.html" target = "_blank">Simple Regression</a> ([invite](https://classroom.github.com/assignment-invitations/eeccb61f614dec6e1d7309c423d14224))
+2. <a href = "{{ site.baseurl }}/assets/week-02/lab-2.html" target = "_blank">Simple Regression</a> ([invite](https://classroom.github.com/assignment-invitations/eeccb61f614dec6e1d7309c423d14224))
