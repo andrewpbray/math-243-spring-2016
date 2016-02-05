@@ -1,0 +1,36 @@
+---
+title: "Lab 2: Simple Regression"
+author: "your names"
+output: 
+  html_document: 
+    highlight: pygments
+    theme: spacelab
+---
+
+Recall the last question from homework 1: would you expect a relationship between 
+the magnitude of an earthquake and the number of stations that detect it?
+
+1. Create a plot of the relationship between these two variables.  How would you 
+characterize the relationship?
+
+2. Before you go ahead and fit a linear model to this trend, if in fact there 
+was *no relationship* between the two, what would you expect the slope to be?
+What about the intercept?
+
+3. Ok, now go ahead and fit a linear model to trend and add that line to the plot
+from #1. Interpret your slope and intercept in the context of the problem.
+
+4. Verify the way that `lm()` has computed your slope correctly by using R
+to do the calculation using the equation we derived at the beginning of class.
+
+5. How many stations do you predict would be able to detect an earthquake of 
+magnitude 7.0?
+
+* * *
+
+### Inference for SLR
+
+6. Using R, calculate a 95% confidence interval for the slope of the model that you 
+fit in exercise 3.  Confirm the calculation using `confint()`.
+
+7. Interpret the CI for the slope in the context of the problem.
