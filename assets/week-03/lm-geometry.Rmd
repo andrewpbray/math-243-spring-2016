@@ -139,12 +139,3 @@ m1 <- lm(logprice ~ logsqft + bed + city, data = LA)
 summary(m1)
 ```
 
-
-#
-
-```{r}
-LA$noise <- rnorm(nrow(LA), mean = 2, sd = 3)
-m2 <- lm(logprice ~ logsqft + bed + city + noise, data = LA)
-summary(m2)
-```
-
