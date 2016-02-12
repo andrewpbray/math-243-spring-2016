@@ -1,0 +1,150 @@
+---
+title: "Extending the Linear Model"
+output:
+  ioslides_presentation:
+    incremental: true
+---
+
+
+```{r setup, include=FALSE}
+library(knitr)
+options(digits=3)
+knitr::opts_chunk$set(echo = TRUE)
+library(dplyr)
+library(ggplot2)
+library(oilabs)
+library(openintro)
+```
+
+```{r getdata, echo = FALSE, message=FALSE}
+library(DAAG)
+data(allbacks)
+books <- allbacks[, c(3, 1, 4)]
+```
+
+
+## Example: shipping books
+```{r plotallbacks}
+qplot(x = volume, y = weight, data = books)
+```
+
+
+## Example: shipping books {.smaller}
+
+```{r fitm1, echo = FALSE}
+m1 <- lm(weight ~ volume, data = books)
+```
+
+```{r plotallbackswline}
+qplot(x = volume, y = weight, data = books) + 
+  geom_abline(intercept = m1$coef[1], slope = m1$coef[2], col = "orchid")
+```
+
+
+## Fitting the linear model {.build .smaller}
+
+```{r}
+m1 <- lm(weight ~ volume, data = books)
+summary(m1)
+```
+
+## Multiple Regression {.build}
+
+Allows us create a model to explain one $numerical$ variable, the response, as a linear function of many explanatory variables that can be both $numerical$ and
+$categorical$.
+
+We posit the true model:
+
+$$ Y = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \ldots + \beta_p X_p + \epsilon; \quad \epsilon \sim N(0, \sigma^2) $$
+
+
+## Estimating $\beta_0, \beta_1$ etc.
+
+In least-squares regression, we're still finding the estimates that minimize
+the sum of squared residuals.
+
+$$ e_i = y_i - \hat{y}_i $$
+
+$$ \sum_{i = 1}^n e_i^2 $$
+
+And yes, they have a closed-form solution.
+
+$$ \hat{\beta} = (X'X)^{-1}X'Y $$
+
+In R:
+```{r eval = FALSE}
+lm(Y ~ X1 + X2 + ... + Xp, data = mydata)
+```
+
+
+
+## Example: shipping books {.build}
+
+```{r plotcolors}
+qplot(x = volume, y = weight, color = cover, data = books)
+```
+
+
+## Example: shipping books {.build .smaller}
+
+```{r}
+m2 <- lm(weight ~ volume + cover, data = books)
+summary(m2)
+```
+
+
+## Example: shipping books {.build .smaller}
+
+```{r echo = FALSE}
+qplot(x = volume, y = weight, color = cover, data = books) +
+  geom_abline(intercept = m2$coef[1], slope = m2$coef[2], col = 2) +
+  geom_abline(intercept = m2$coef[1] + m2$coef[3], slope = m2$coef[2], col = 4)
+```
+
+
+## MLR slope interpretation {.build}
+
+The slope corresponding to the dummy variable tell us:
+
+- How much vertical separation there is between our lines
+- How much `weight` is expected to increase if `cover` goes
+from 0 to 1 and `volume` is left unchanged.
+
+Each $\hat{\beta}_i$ tells you how much you expect the $Y$ to change when you change the
+$X_i$, while **holding all other variables constant**.
+
+
+## Activity
+Load in the LA homes data set and fit the following model:
+
+\[ logprice \sim logsqft + bed + city \]
+
+```{r eval = FALSE}
+LA <- read.csv("http://andrewpbray.github.io/data/LA.csv")
+```
+
+
+1. What is the geometry of this model?
+
+2. What appears to be the reference level for `city`?
+
+3. In the context of this problem, what is suggested by the *sign* of the
+coefficient for `bed`?  Do this make sense to you?
+
+```{r echo=FALSE, eval=FALSE}
+LA <- read.csv("http://andrewpbray.github.io/data/LA.csv")
+LA <- transform(LA, logprice = log(price), logsqft = log(sqft))
+m1 <- lm(logprice ~ logsqft + bed + city, data = LA)
+
+summary(m1)
+```
+
+
+#
+
+```{r}
+LA$noise <- rnorm(nrow(LA), mean = 2, sd = 3)
+m2 <- lm(logprice ~ logsqft + bed + city + noise, data = LA)
+summary(m2)
+```
+
