@@ -11,4 +11,4 @@ work. Problem sets are due every **Friday** at the beginning of class.
 
 [Problem Set 1]({{ site.baseurl }}/assets/week-01/ps-1.html) ([key]({{ site.baseurl }}/assets/week-01/ps-1-key.html))
 
-[Problem Set 2]({{ site.baseurl }}/assets/week-02/ps-2.html)
+[Problem Set 2]({{ site.baseurl }}/assets/week-02/ps-2.html) ([key]({{ site.baseurl }}/assets/week-02/ps-2-key.html))
