@@ -1,0 +1,63 @@
+---
+layout: page
+title: Problem Set 2 Key
+permalink: /problem-sets/
+published: FALSE
+output: 
+  html_document: 
+    highlight: pygments
+    theme: spacelab
+---
+
+#### Chapter 2 exercises
+
+## 1
+
+The first p-value corresponds to the null hypothesis that with no money spent on advertising (of any sort), there would be no sales. Each p-values corresponds to the null hypothesis that spending on that (corresponding) advertising media has no relationship to sales. The data indicates that some sales would be predicted without spending any money on advertising, but also that sales are positively correlated with money spend on radio and tv advertising. The large p-value associated with `newspaper` indicates that this variable adds nothing to the model after accounting for `TV` and `radio`; that it is not a significant predictor in this model.
+
+## 4
+
+a. We would expect the residual some of squares to be higher for the linear model than for the cubic model. This is because the cubic model, a more flexible model, would capture some of the random error by overfitting the training data with an overly complex model. 
+
+b. The RSS from test training data would favor the linear model. The bias-variance decomposition illustrates that, because we reduced bias in part (a) by using the cubic model, there would be corresponding increase in variance. This increase would lead to a higher RSS for the cubic model. We overfit the training data and now we suffer with the test data. 
+
+c. We would still expect the cubic form to have a lower training RSS. This is for the same reasons as in part (a). 
+
+d. We can't be sure which would be better. It depends on how non-linear the data actually is. If the data strictly followed a cubic (or higher) ordered polynomial, it is entirely possible that the cubic model would fit the test data better; however, if the data strictly followed a quadratic model the linear test RSS might still be preferable. 
+
+## 5 
+
+So,
+$$
+\begin{aligned}
+\hat{y_i} = x_i\hat{\beta} &= x_i \frac{\sum_{j=1}^n x_jy_j}{\sum_{k=1}^n x_{k}^2} \\
+&= \sum_{j=1}^n \frac{x_i x_j}{\sum_{k=1}^n x_k^2} y_j\\
+&= \sum_{j=1}^n a_jy_j
+\end{aligned}
+$$
+Hence, $a_j = \frac{x_i x_j}{\sum_{k=1}^n x_k^2}$
+
+## 6
+We just need to put $\bar{X}$ into the model given in 3.4
+$$
+\begin{aligned}
+f(\bar{X}) &= \hat{\beta_0} + \hat{\beta_1}\bar{X} \\
+&= (\bar{Y} - \hat{\beta_1}\bar{X}) + \hat{\beta_1}\bar{X}
+&= \bar{Y}
+\end{aligned}
+$$
+
+## Challenge Problem
+$$
+\begin{aligned}
+\mathbb{E}[(y-\hat{f}(x))^2] &= \mathbb{E}[y^2 - 2y\hat{f}(x) + \hat{f}(x)^2]\\
+&= \mathbb{E}[y^2] - 2\mathbb{E}[y\hat{f}(x)] + \mathbb{E}[\hat{f}(x)^2]\\
+&= var[y] + \mathbb{E}[y]^2 - 2\mathbb{E}[y\hat{f}(x)] + \mathbb{E}[\hat{f}(x)]^2 + var[\hat{f}(x)]\\
+&= var[f(x) + \epsilon] + \mathbb{E}[f(x) + \epsilon]^2 - 2\mathbb{E}[(f(x)+\epsilon)\hat{f}(x)] + \mathbb{E}[\hat{f}(x)]^2 + var[\hat{f}(x)]\\
+&= var[f(x)] + var[\epsilon] + (\mathbb{E}[f(x)] + \mathbb{E}[\epsilon])^2 - 2\mathbb{E}[f(x)\hat{f}(x)] -2 \mathbb{E}[\epsilon]\mathbb{E}[\hat{f(x)}] +  \mathbb{E}[\hat{f}(x)]^2 + var[\hat{f}(x)]\\
+&= 0 + var[\epsilon] + (f(x) + 0)^2 - 2f(x)\mathbb{E}[[\hat{f}(x)] - 0  + \mathbb{E}[\hat{f}(x)]^2 + var[\hat{f}(x)]\\
+&= var[\hat{f}(x)] + (f(x) - \mathbb{E}[\hat{f}(x)])^2 + var{\epsilon}\\
+&= Var[\hat{f}(x)] + [Bias(\hat{f}(x)]^2 + Var[\epsilon]
+\end{aligned}
+$$
+
