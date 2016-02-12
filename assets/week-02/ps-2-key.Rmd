@@ -9,7 +9,7 @@ output:
     theme: spacelab
 ---
 
-#### Chapter 2 exercises
+#### Chapter 3 exercises
 
 ## 1
 
