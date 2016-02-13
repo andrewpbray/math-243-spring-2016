@@ -1,0 +1,164 @@
+---
+layout: page
+title: Problem Set 2 Key
+permalink: /problem-sets/
+published: FALSE
+output: 
+  html_document: 
+    highlight: pygments
+    theme: spacelab
+---
+
+```{r data, echo =FALSE}
+library(sp)
+data(quakes)
+```
+
+#### Exercise 1
+> Create a plot of the relationship between `stations` and `magnitude`. How would you characterize the relationship? (If you see overplotting, you may want to add `jitter` to your points or make them transparent by playing with the alpha value.)
+
+```{r}
+jitteredMag <- jitter(quakes$mag)
+plot(stations ~ jitteredMag, data = quakes, pch = 16, cex = 0.5)
+```
+
+There is a fairly strong positive relationship between magnitude and stations. The shape of the relationship is linear with potentially slight curvature.
+
+#### Exercise 2
+
+> Before you go ahead and fit a linear model to this trend, if in fact there was no relationship between the two, what would you expect the slope to be? What about the intercept?
+
+If there were no relationship, the slope would be zero and the intercept would be the average number of stations.
+
+#### Exercise 3
+
+> Ok, now go ahead and fit a linear model called `m1` to the trend and add that line to the plot from exercise 1. Interpret your slope and intercept in the context of the problem.
+
+```{r}
+m1 <- lm(stations ~ mag, data = quakes)
+summary(m1)
+
+intercept <- m1$coefficients[1]
+slope <- m1$coefficients[2]
+
+library(ggplot2)
+ggplot(quakes, aes(x = mag, y = stations)) + 
+  geom_point() + 
+  geom_abline(slope = slope, intercept = intercept, color = "blue" )
+```
+
+The intercept is -180.424 and the slope is 46.282. 
+
+#### Exercise 4
+
+> Verify the way that `lm()` has computed your slope correctly by using R to do the calculation using the equation for the slope based on X and Y.
+
+```{r}
+muX <- mean(quakes$mag)
+muY <- mean(quakes$stations)
+beta1 <- sum((quakes$mag - muX)*(quakes$stations - muY)) / sum((quakes$mag - muX)^2)
+beta0 <- muY - beta1 * muX
+beta1
+beta0
+```
+As you can see, the computations of beta1 and beta2 produce the same estimates as the lm() function. 
+
+#### Exercise 5
+> Using R, calculate a 95% confidence interval for the slope of the model that you fit in exercise 3. Confirm the calculation using confint().
+
+```{r}
+beta1SE <- sqrt(var(m1$residuals)/sum((quakes$mag - muX)^2))
+beta1CI<- c(slope - qt(0.975, 1000-2) * beta1SE, slope + qt(0.975, 1000-2) * beta1SE)
+beta1CI
+
+beta0SE <- sqrt(var(m1$residuals)* (1/1000 + muX^2/sum((quakes$mag - muX)^2)))
+beta2CI<- c(intercept - qt(0.975, 1000-2) * beta0SE, intercept + qt(0.975, 1000-2) * beta0SE)            
+beta2CI
+
+confint(m1)
+```
+#### Exercise 6
+> How many stations do you predict would be able to detect an earthquake of magnitude 7.0
+
+```{r}
+pred.mag.seven <- intercept + slope * 7.0
+```
+
+We would predict `r pred.mag.seven` stations would be able to detect a magnitude 7.0 earthquake.
+
+#### Exercise 7
+
+> Questions 1 - 6 in this lab involve elements of data description, inference, and/or prediction. Which was the dominant goal in each question?
+
+1. Data description
+2. Inference
+3. Data description
+4. Data description
+5. Inference
+6. Prediction
+
+#### Exercise 9
+> Please simulate a data set that has the same number of observations as quakes. To start, generate a vector of x’s. You can either generate your own x’s or use the exact same x’s as the quakes data.
+
+```{r}
+X <- quakes$mag
+```
+
+#### Exercise 10
+> Next, generate your ŷ’s (the value of the mean function at the observed x’s). Please generate them by writing your own function of the form:
+
+```{r}
+f_hat <- function(x, int, slope){
+  return(int + slope * x)
+}
+Y_hat <- f_hat(X, intercept, slope)
+```
+
+
+#### Exercise 11
+> Now, generate the `y`’s.
+
+```{r}
+sig_hat <- sqrt(sum(m1$residuals^2)/998)
+Y <- Y_hat + rnorm(1000, 0, sd = sig_hat)
+```
+
+
+#### Exercise 12
+
+> Finally, make a plot of your simulated data. How is it similar to the original data? How is it different? How might you change your model to make it more consistent with the data?
+
+```{r}
+par(mfrow = c(1, 2))
+plot(stations ~ mag, data = quakes, 
+     xlab = "Magnitude",
+     ylab = "# of Stations Reporting",
+     main = "Empirical Data",
+     pch = 16)
+plot(Y ~ X,
+     xlab = "Magnitude",
+     ylab = "# of Stations Reporting",
+     main = "Simulated Data",
+     pch = 16)
+```
+
+First note that out simulated predictions include negative values, which is impossible in the real world, because our response variable is a count. So, in practice, negative predictions should be interpreted as zero.
+
+There also seems to be a slight curve to the data. I would consider using a quadratic term, which might make sense in this situation because an linear increase radius of the land effected by an earthquake should lead to a quadratic increase in the number of stations detecting it. (Though, a linear increase in magnitude may not lead to a linear increase in the radius, because of the way the scale works.)
+
+```{r}
+ggplot(quakes, aes(x = mag^2, y = stations)) + geom_point()
+```
+
+
+#### Challenge Problem
+> Use the latitude and longitude data to plot each of these earthquakes in quakes on a map with their magnitude mapped to the size of the plotting character. You may need to all some transparency to prevent overplotting.
+
+```{r, echo=FALSE, warning=FALSE}
+library(ggmap)
+quake_locations <- c(min(quakes$long)-5, min(quakes$lat)-5, max(quakes$long)+5, max(quakes$lat)+5)
+myMap <- get_map(location=quake_locations, source="google")
+
+ggmap(myMap) + 
+  geom_point(aes(x = long, y = lat, size = mag), alpha=0.2, data=quakes)
+```
