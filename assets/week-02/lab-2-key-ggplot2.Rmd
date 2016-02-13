@@ -154,7 +154,7 @@ ggplot(quakes, aes(x = mag^2, y = stations)) + geom_point()
 #### Challenge Problem
 > Use the latitude and longitude data to plot each of these earthquakes in quakes on a map with their magnitude mapped to the size of the plotting character. You may need to all some transparency to prevent overplotting.
 
-```{r, echo=FALSE, warning=FALSE}
+```{r, warning=FALSE, message = FALSE}
 library(ggmap)
 quake_locations <- c(min(quakes$long)-5, min(quakes$lat)-5, max(quakes$long)+5, max(quakes$lat)+5)
 myMap <- get_map(location=quake_locations, source="google")
