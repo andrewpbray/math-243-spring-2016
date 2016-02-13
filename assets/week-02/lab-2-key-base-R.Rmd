@@ -1,0 +1,112 @@
+---
+layout: page
+title: Problem Set 2 Key
+permalink: /problem-sets/
+published: FALSE
+output: 
+  html_document: 
+    highlight: pygments
+    theme: spacelab
+---
+
+#### Exercise 1
+
+```{r}
+data(quakes)
+plot(stations ~ jitter(mag), data = quakes, xlab = "magnitude")
+```
+
+There is a fairly strong positive relationship between magnitude and stations. The shape of the relationship is linear with potentially slight curvature.
+
+#### Exercise 2
+If there were no relationship I would expect the slope to be 0, and the intercept to be the mean value of stations.
+
+#### Exercise 3
+```{r}
+m1 <- lm(stations ~ mag, data = quakes)
+plot(stations ~ jitter(mag), data = quakes, xlab = "magnitude")
+abline(m1)
+summary(m1)
+```
+For this line, the slope indicates the number of additional stations that would
+be expected to detect an earthquake that is one unit greater in magnitude. In this case, the intercept is the number of stations that would detect a magnitude 0 event. However, since these events cannot be detected, and furthermore the data doesn't go below magnitude 0 events, this does not correspond to a real value, so the fact that it's negative shouldn't bother us.
+
+#### Exercise 4
+To manually calculate the slope, I use the formula from the book:
+```{r}
+s <- quakes$stations
+sb <- mean(s)
+m <- quakes$mag
+mb <- mean(m)
+b1 <- sum((s - sb)*(m - mb))/ sum((m - mb)^2)
+b1
+```
+This is the exact same value as given by `lm()`, so it checks out.
+
+#### Exercise 5
+Using Eq. 3.9 from the book, our interval is given by
+
+$$ \hat \beta_1 \pm 2 \cdot SE(\hat \beta_1), $$
+
+where our standard error is given by
+
+$$ SE(\hat \beta_1) = \dfrac{\sigma} {\sqrt{\sum (x_i - \bar x)^2}} $$
+
+but summary() gives the standard error of our slope to be 0.903, so let's not calculate it over again.
+
+```{r}
+SEb1 <- summary(m1)$coefficients[2,2]
+b1_upper <- b1 + 2 * SEb1
+b1_lower <- b1 - 2 * SEb1
+b1_upper
+b1_lower
+confint(m1)
+```
+
+So our results are close, but strangely enough not exactly the same. I expect they would be closer if I used the exact t-value instead of 2.
+
+#### Exercise 6
+Plugging in mag = 7 to our model:
+
+```{r}
+ m1$coefficients[1] + 7 * m1$coefficients[2]
+```
+
+So we would expect about 143 detections for a magnitude 7 earthquake.
+
+#### Exercise 7
+1. We described the data by characterizing the relationship.
+2. Inference, since we're considering an unknown true parameter.
+3. Even though we've fit a model, the slope and intercept can be thought of
+as geometric descriptions of the data.
+4. Same as 3.
+5. Inference on a true slope parameter.
+6. This is an attempt at prediction, which to be accurate, needs to draw lessons from inference in thinking about capturing true parameters and not overfitting our data.
+
+#### Exercise 9
+```{r}
+x <- quakes$mag
+```
+For this section, I simply reused the magnitude data from the actual dataset.
+
+#### Exercise 10
+```{r}
+f_hat <- function(x)
+{ m1$coefficients[1] + x * m1$coefficients[2]}
+y_hat <- f_hat(x)
+```
+
+#### Exercise 11
+```{r}
+rss <- sum(m1$residuals^2)
+sigma2 <- rss/(length(m1$residuals) - 2)
+y <- y_hat + rnorm(length(x), sd = sqrt(sigma2)) 
+```
+
+
+#### Exercise 12
+```{r}
+plot(x, y)
+```
+
+This plot looks pretty close to the real one! The real data has a bit more of an upward curve which the linear model can't capture, but the spread of the data is the same.
