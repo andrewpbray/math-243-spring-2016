@@ -1,0 +1,194 @@
+---
+title: "Extending the Linear Model II"
+output:
+  ioslides_presentation:
+    incremental: true
+---
+
+## A valid model
+
+```{r}
+set.seed(794)
+n <- 80
+x <- runif(n)
+beta_1 <- 3.5
+sigma <- .6
+y <- beta_1 * x + rnorm(n, sd = sigma)
+df <- data.frame(x, y)
+m1 <- lm(y ~ x, data = df)
+```
+
+
+## A valid model
+
+```{r echo = FALSE}
+library(ggplot2)
+ggplot(df, aes(x = x, y = y)) + 
+  geom_point(col = "steelblue") + 
+  geom_abline(intercept = m1$coef[1], slope = m1$coef[2]) +
+  theme_bw()
+```
+
+
+## Residual plot
+
+```{r, fig.width = 4, fig.align="center"}
+plot(m1, 1)
+```
+
+
+## QQ plot
+
+```{r, fig.width = 4, fig.align="center"}
+plot(m1, 2)
+```
+
+
+## Scale Location plot
+
+```{r, fig.width = 4, fig.align="center"}
+plot(m1, 3)
+```
+
+
+## Residual plot
+
+```{r, fig.width = 4, fig.align="center"}
+plot(m1, 4)
+```
+
+
+## Plot Quartet
+
+```{r, fig.width = 4, fig.align="center"}
+par(mfrow = c(2, 2))
+plot(m1)
+```
+
+
+## What can break?
+1. Unbiased estimation of $\hat{\beta}$
+2. Accurate assessment of $SE(\hat{\beta})$
+    - p-values
+    - CI's
+    
+
+## Checking for breaks
+```{r}
+it <- 5000
+beta_hats <- rep(NA, it)
+capture <- rep(FALSE, it)
+for(i in 1:it) {
+  y <- beta_1 * x + rnorm(n, sd = sigma)
+  m <- lm(y ~ x)
+  beta_hats[i] <- m$coef[2]
+  ci <- confint(m)[2, ]
+  capture[i] <- (ci[1] < beta_1 & beta_1 < ci[2])
+}
+```
+
+
+## Checking for breaks
+```{r}
+hist(beta_hats)
+abline(v = mean(beta_hats), col = "tomato")
+```
+
+
+## Checking for breaks
+
+### Bias in $\hat{\beta}$?
+
+```{r}
+mean(beta_hats) - beta_1
+```
+
+### Accurate assessment of $SE(\hat{\beta})$
+
+```{r}
+mean(capture)
+```
+
+
+# Let's break something
+
+## Non-constant variance
+
+```{r}
+set.seed(794)
+n <- 80
+x <- runif(n)
+y <- beta_1 * x + rnorm(n, sd = .93 * x)
+df <- data.frame(x, y)
+m1 <- lm(y ~ x, data = df)
+```
+
+
+## Non-constant variance
+
+```{r, echo = FALSE}
+ggplot(df, aes(x = x, y = y)) + 
+  geom_point(col = "steelblue") + 
+  geom_abline(intercept = m1$coef[1], slope = m1$coef[2]) +
+  theme_bw()
+```
+
+
+## Plot Quartet
+
+```{r, fig.width = 4, fig.align="center", echo = FALSE}
+par(mfrow = c(2, 2))
+plot(m1)
+```
+
+
+## Checking for breaks
+```{r}
+it <- 5000
+beta_hats <- rep(NA, it)
+capture <- rep(FALSE, it)
+for(i in 1:it) {
+  y <- beta_1 * x + rnorm(n, sd = .93 * x)
+  m <- lm(y ~ x)
+  beta_hats[i] <- m$coef[2]
+  ci <- confint(m)[2, ]
+  capture[i] <- (ci[1] < beta_1 & beta_1 < ci[2])
+}
+```
+
+
+## Checking for breaks
+```{r}
+hist(beta_hats)
+abline(v = mean(beta_hats), col = "tomato")
+```
+
+
+## Checking for breaks
+
+### Bias in $\hat{\beta}$?
+
+```{r}
+mean(beta_hats) - beta_1
+```
+
+### Accurate assessment of $SE(\hat{\beta})$
+
+```{r}
+mean(capture)
+```
+
+
+## Activity
+
+With a partner (there needs to be one computer between you), choose one of the
+following components of the linear model to break, then assess what goes wrong.
+
+1. Normality of errors
+2. Independence of errors
+3. Linear trend in mean function
+
+
+You can build off the code used in these slides:  
+
+`andrewpbray.github.io/math-243/assets/week_03/lm-diagnostics.Rmd`
