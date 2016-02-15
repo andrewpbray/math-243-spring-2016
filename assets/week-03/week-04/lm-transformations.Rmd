@@ -13,138 +13,7 @@ Say you fit a linear model to data and find the residual plots look awful. One
 strategy to regain a valid model is to transform your data.
 
 
-## Example 1: Cleaning crews
-
-A building maintenance company is planning to submit a bid to clean corporate offices.
-How much should they bid?  They'd like to be able to cover the job with a team of
-4 crews and a team of a 16 crews, but they want to be sure. To make a good 
-prediction, they collected data on how many crews were required over a sample of
-53 days.
-
-```{r echo=FALSE, fig.height=4}
-cleaning <- read.delim("http://www.stat.tamu.edu/~sheather/book/docs/datasets/cleaning.txt",
-                     header = T)
-plot(Rooms ~ Crews, data = cleaning, pch = 16, col = "darkgreen")
-```
-
-
-## Linear model?
-
-```{r, echo=FALSE}
-m1 <- lm(Rooms ~ Crews, data = cleaning)
-summary(m1)$coef
-plot(Rooms ~ Crews, data = cleaning, pch = 16, col = "darkgreen")
-abline(m1, lwd = 2)
-```
-
-
-## Linearity and normality {.build}
-
-```{r, echo=FALSE}
-par(mfrow = c(1, 2))
-plot(m1, 1:2)
-```
-
-The mean function appears to be linear and the residuals are well-approximated
-by the normal distribution.
-
-
-## Constant variance and influence {.build}
-
-```{r echo = FALSE}
-par(mfrow = c(1, 2))
-plot(m1, c(3, 5))
-```
-
-There are no influential points, however there is dramatic increasing variance.
-
-
-## PIs on an invalid model
-
-```{r echo=FALSE}
-pi <- predict(m1, data.frame(Crews = c(4, 16)), interval = "prediction")
-plot(Rooms ~ Crews, data = cleaning, pch = 16, col = "darkgreen")
-abline(m1, lwd = 2)
-lines(c(4, 4), c(pi[1, 2], pi[1, 3]), col = "tomato", lwd = 2)
-lines(c(16, 16), c(pi[2, 2], pi[2, 3]), col = "tomato", lwd = 2)
-```
-
-Prediction intervals are particularly sensitive to model assumptions, so we have
-good reason to distrust this one.
-
-
-## Square root transform {.build}
-
-The square root tranform is often useful to reducing the increasing variance that
-is found in many types of count data.
-
-\[ X_t = \sqrt{X} \]
-
-Let's transform both $X$ and $Y$.
-
-```{r}
-cleaning2 <- transform(cleaning, sqrtCrews = sqrt(Crews))
-cleaning2 <- transform(cleaning2, sqrtRooms = sqrt(Rooms))
-cleaning2[1:2, ]
-```
-
-
-## Transformed linear model?
-
-```{r echo=FALSE}
-m2 <- lm(sqrtRooms ~ sqrtCrews, data = cleaning2)
-summary(m2)$coef
-plot(sqrtRooms ~ sqrtCrews, data = cleaning2, pch = 16, col = "darkgreen")
-abline(m2, lwd = 2)
-```
-
-
-## Linearity and normality {.build}
-
-```{r, echo=FALSE}
-par(mfrow = c(1, 2))
-plot(m2, 1:2)
-```
-
-The mean function appears to be linear and the residuals are well-approximated
-by the normal distribution.
-
-
-## Constant variance and influence {.build}
-
-```{r echo = FALSE}
-par(mfrow = c(1, 2))
-plot(m2, c(3, 5))
-```
-
-There are no influential points and the variance has been stabilized.
-
-
-## PIs from a valid model
-
-```{r echo=FALSE}
-pi2 <- predict(m2, data.frame(sqrtCrews = c(2, 4)), interval = "prediction")
-plot(sqrtRooms ~ sqrtCrews, data = cleaning2, pch = 16, col = "darkgreen")
-abline(m2, lwd = 2)
-lines(c(2, 2), c(pi2[1, 2], pi2[1, 3]), col = "tomato", lwd = 2)
-lines(c(4, 4), c(pi2[2, 2], pi2[2, 3]), col = "tomato", lwd = 2)
-```
-
-
-## Comparing PIs
-
-```{r}
-pi
-pi2^2
-```
-
-
-
-
-## Log Transformations
-
-
-## Example 2: Truck prices
+## Example: Truck prices
 
 Can we use the age of a truck to predict what it's price should be?  Consider a 
 random sample of 43 pickup trucks.
@@ -155,10 +24,10 @@ plot(price ~ year, data = pickups, col = "steelblue", pch = 16)
 ```
 
 
-## Consider unusual observations
+## Example: Truck prices
 
-The very old truck will be a high leverage point and may not be of interest to 
-model. Let's only consider trucks made in the last 20 years.
+Can we use the age of a truck to predict what it's price should be?  Consider a 
+random sample of 43 pickup trucks *from the last 20 years*.
 
 ```{r echo = FALSE}
 plot(price ~ year, data = subset(pickups, year >= 1994), col = "steelblue", pch = 16)
@@ -243,48 +112,6 @@ plot(m2, c(3, 5))
 There are no points flagged as influential and our variance has been stabilized.
 
 
-## Model interpretation
-
-```{r echo=FALSE}
-summary(m2)$coef
-```
-
-\[ \widehat{log(price)} = -258.99 + 0.13 * year \]
-
-For each additional year the car is newer, we would expect the log price of the
-car to increase on average by `r round(summary(m2)$coef[2, 1], 2)` dollars.
-
-Which isn't very useful . . .
-
-
-## Working with logs {.build}
-
-Two useful identities:
-
-- \[ log(a) - log(b) = log(\frac{a}{b}) \]
-- \[ e^{log(x)} = x \]
-
-
-## {.build}
-
-The slope coefficient for the log-transformed model is
-`r round(summary(m2)$coef[2, 1], 2)`, meaning the *log* price difference between
-cars that are one year apart is predicted to be `r round(summary(m2)$coef[2, 1], 2)`
-log dollars.
-
-\[
-\begin{eqnarray}
-log(price at year x + 1) - log(price at year x) &=& 0.13 \\
-log(\frac{price at year x + 1}{price at year x}) &=& 0.13 \\
-e^{log(\frac{price at year x + 1}{price at year x})} &=& e^{0.13} \\
-\frac{price at year x + 1}{price at year x} = 1.14 \\
-\end{eqnarray}
-\]
-
-For each additional year the car is newer we would expect the price of the car to
-increase on average by a factor of 1.14.
-
-
 ## Transformations summary {.build}
 
 - If a linear model fit to the raw data leads to questionable residual plots,
@@ -295,6 +122,6 @@ transformation you like.
 - Transformations may change model interpretations.
 - Non-constant variance is a serious problem but it can often be solved by transforming
 the response.
-- Transformations can also fix non-linearity, as can polynomials - coming soon!
+- Transformations can also fix non-linearity, as can polynomials.
 
 
