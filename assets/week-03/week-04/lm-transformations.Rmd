@@ -5,14 +5,6 @@ output:
     incremental: true
 ---
 
-## Transformations
-
-![tranformations](http://i1.wp.com/littlebylisten.com/wp-content/uploads/2013/08/breaking-bad.jpg)
-
-Say you fit a linear model to data and find the residual plots look awful. One
-strategy to regain a valid model is to transform your data.
-
-
 ## Example: Truck prices
 
 Can we use the age of a truck to predict what it's price should be?  Consider a 
@@ -64,6 +56,13 @@ plot(m1, c(3, 5))
 
 One observation (44) should be investigated for its influence.  There is
 evidence of increasing variance in the residuals.
+
+## Transformations
+
+![tranformations](http://i1.wp.com/littlebylisten.com/wp-content/uploads/2013/08/breaking-bad.jpg)
+
+Say you fit a linear model to data and find the residual plots look awful. One
+strategy to regain a valid model is to transform your data.
 
 
 ## {.build}
