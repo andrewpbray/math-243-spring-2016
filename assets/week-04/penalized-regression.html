@@ -83,7 +83,7 @@
           </hgroup>
   </slide>
 
-<slide class=''><hgroup><h2>Example: Credit</h2></hgroup><article  id="example-credit">
+<slide class=''><hgroup><h2>Example: Credit</h2></hgroup><article  id="example-credit" class="build">
 
 <p>Can we predict the balance that someone will carry on their credit card?</p>
 
@@ -98,7 +98,7 @@ dim(credit)</pre>
 ##  [6] &quot;Education&quot; &quot;Gender&quot;    &quot;Student&quot;   &quot;Married&quot;   &quot;Ethnicity&quot;
 ## [11] &quot;Balance&quot;</pre>
 
-</article></slide><slide class=''><hgroup><h2>Least Squares</h2></hgroup><article  id="least-squares">
+</article></slide><slide class=''><hgroup><h2>Least Squares</h2></hgroup><article  id="least-squares" class="build">
 
 <pre class = 'prettyprint lang-r'>m1 &lt;- lm(Balance ~ ., data = credit)
 m1</pre>
@@ -117,7 +117,7 @@ m1</pre>
 ##         MarriedYes      EthnicityAsian  EthnicityCaucasian  
 ##            -8.5339             16.8042             10.1070</pre>
 
-</article></slide><slide class=''><hgroup><h2>Ridge regression</h2></hgroup><article  id="ridge-regression">
+</article></slide><slide class=''><hgroup><h2>Ridge regression</h2></hgroup><article  id="ridge-regression" class="build">
 
 <pre class = 'prettyprint lang-r'>X &lt;- model.matrix(Balance ~ ., data = credit)[, -1]
 X[1:2, ]</pre>
@@ -137,35 +137,23 @@ dim(coef(rm1))</pre>
 
 <pre >## [1]  12 100</pre>
 
-</article></slide><slide class=''><hgroup><h2></h2></hgroup><article  id="section">
+</article></slide><slide class=''><hgroup><h2></h2></hgroup><article  id="section" class="build">
 
 <pre class = 'prettyprint lang-r'>rm1$lambda[100]</pre>
 
 <pre >## [1] 0.01</pre>
 
-<pre class = 'prettyprint lang-r'>coef(rm1)[, 100]</pre>
+<pre class = 'prettyprint lang-r'>coef(rm1)[1:4, 100]</pre>
 
-<pre >##        (Intercept)             Income              Limit 
-##       -484.6964113         -7.8000989          0.1758892 
-##             Rating              Cards                Age 
-##          1.3599609         16.6431477         -0.6162122 
-##          Education       GenderFemale         StudentYes 
-##         -1.0421264        -10.6558909        425.0030445 
-##         MarriedYes     EthnicityAsian EthnicityCaucasian 
-##         -9.0520073         17.1929075         10.1495565</pre>
+<pre >##  (Intercept)       Income        Limit       Rating 
+## -484.6964113   -7.8000989    0.1758892    1.3599609</pre>
 
-<pre class = 'prettyprint lang-r'>coef(m1)</pre>
+<pre class = 'prettyprint lang-r'>coef(m1)[1:4]</pre>
 
-<pre >##        (Intercept)             Income              Limit 
-##       -479.2078706         -7.8031018          0.1909067 
-##             Rating              Cards                Age 
-##          1.1365265         17.7244836         -0.6139088 
-##          Education       GenderFemale         StudentYes 
-##         -1.0988553        -10.6532477        425.7473595 
-##         MarriedYes     EthnicityAsian EthnicityCaucasian 
-##         -8.5339006         16.8041792         10.1070252</pre>
+<pre >##  (Intercept)       Income        Limit       Rating 
+## -479.2078706   -7.8031018    0.1909067    1.1365265</pre>
 
-</article></slide><slide class=''><hgroup><h2></h2></hgroup><article  id="section-1">
+</article></slide><slide class=''><hgroup><h2></h2></hgroup><article  id="section-1" class="build">
 
 <pre class = 'prettyprint lang-r'>rm1$lambda[5]</pre>
 

@@ -5,7 +5,7 @@ output:
     incremental: true
 ---
 
-## Example: Credit
+## Example: Credit {.build}
 
 Can we predict the balance that someone will carry on their credit card?
 
@@ -16,7 +16,7 @@ names(credit)
 ```
 
 
-## Least Squares
+## Least Squares {.build}
 
 ```{r}
 m1 <- lm(Balance ~ ., data = credit)
@@ -24,7 +24,7 @@ m1
 ```
 
 
-## Ridge regression
+## Ridge regression {.build}
 
 ```{r message = FALSE}
 X <- model.matrix(Balance ~ ., data = credit)[, -1]
@@ -36,20 +36,21 @@ rm1 <- glmnet(x = X, y = Y, alpha = 0, lambda = lambdas, standardize = TRUE)
 dim(coef(rm1))
 ```
 
-## 
+## {.build}
 
 ```{r}
 rm1$lambda[100]
-coef(rm1)[, 100]
-coef(m1)
+coef(rm1)[1:4, 100]
+coef(m1)[1:4]
 ```
 
 
-## 
+## {.build}
 
 ```{r}
 rm1$lambda[5]
-coef(rm1)[, 5]
+coef(rm1)[1:4, 5]
+coef(rm1)[1:4, 100]
 ```
 
 ##
