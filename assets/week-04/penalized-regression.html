@@ -159,16 +159,15 @@ dim(coef(rm1))</pre>
 
 <pre >## [1] 9595.96</pre>
 
-<pre class = 'prettyprint lang-r'>coef(rm1)[, 5]</pre>
+<pre class = 'prettyprint lang-r'>coef(rm1)[1:4, 5]</pre>
 
-<pre >##        (Intercept)             Income              Limit 
-##      430.518930087        0.241220304        0.007369143 
-##             Rating              Cards                Age 
-##        0.110179680        1.297960516       -0.010745378 
-##          Education       GenderFemale         StudentYes 
-##       -0.041555967        0.857954944       18.103273467 
-##         MarriedYes     EthnicityAsian EthnicityCaucasian 
-##       -0.339822825       -0.369791717       -0.099771041</pre>
+<pre >##  (Intercept)       Income        Limit       Rating 
+## 4.305189e+02 2.412203e-01 7.369143e-03 1.101797e-01</pre>
+
+<pre class = 'prettyprint lang-r'>coef(rm1)[1:4, 100]</pre>
+
+<pre >##  (Intercept)       Income        Limit       Rating 
+## -484.6964113   -7.8000989    0.1758892    1.3599609</pre>
 
 </article></slide><slide class=''><hgroup><h2></h2></hgroup><article  id="section-2"></article></slide>
 
