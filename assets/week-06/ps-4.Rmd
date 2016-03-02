@@ -1,0 +1,14 @@
+---
+layout: page
+title: Problem Set 4
+permalink: /problem-sets/
+published: FALSE
+output: 
+  html_document: 
+    highlight: pygments
+    theme: spacelab
+---
+
+#### Chapter 4 exercises
+4, 6, 7, challenge problem: 2
+
