@@ -1,0 +1,114 @@
+---
+title: "Linear Discriminant Analysis"
+output: ioslides_presentation
+---
+
+```{r echo = FALSE}
+library(knitr)
+opts_chunk$set(warning = FALSE, message = FALSE)
+```
+
+
+## R Resources
+
+- DataCamp
+- Slack
+
+
+## Example: Credit Default
+
+```{r}
+library(ISLR)
+data(Default)
+head(Default)
+```
+
+$$
+\delta_k(x) = x \frac{mu_k}{\sigma} - \frac{mu_k^2}{2\sigma^2} + \log (\pi_k)
+$$
+
+## Find Estimates
+
+```{r}
+library(dplyr)
+est <- Default %>%
+  group_by(default) %>%
+  summarize(n = n(),
+            prop = n/nrow(Default),
+            mu = mean(balance),
+            ssx = var(balance) * (n - 1))
+est
+```
+
+## Find Estimates
+
+```{r}
+mu_n <- est[1, 4]
+mu_y <- est[2, 4]
+pi_n <- est[1, 3]
+pi_y <- est[2, 3]
+sig_sq <- (1/(nrow(Default) - 2)) * sum(est$ssx)
+```
+
+##
+
+```{r}
+my_lda <- function(x, pi, mu, sig) {
+  x * (mu/sig) - (mu^2)/(2 * sig^2) + log(pi)
+}
+
+my_lda(5000, pi_n, mu_n, sqrt(sig_sq))
+my_lda(5000, pi_y, mu_y, sqrt(sig_sq))
+```
+
+##
+
+```{r}
+library(MASS)
+train <- sample(1:10000, 1000)
+lda.fit <- lda(default ~ balance, data = Default)
+plot(lda.fit)
+```
+
+
+
+
+
+
+##
+
+```{r message=FALSE, warning=FALSE, echo=FALSE}
+library(ggplot2)
+library(dplyr)
+Default <- mutate(Default, defaultYes = ifelse(default == "Yes", 1, 0))
+  
+p3 <- ggplot(Default, aes(x = balance, y = defaultYes)) +
+  geom_point(pch = 1, alpha = .3, color = "steelblue") + 
+  ylab("probability of default") + 
+  theme_bw()
+
+p3
+```
+
+
+## Estimating means
+
+```{r}
+(mus <- Default %>%
+  group_by(default) %>%
+  summarize(mean(balance)))
+mu_yes <- as.numeric(c(mus[2, 2]))
+mu_no <- as.numeric(c(mus[1, 2]))
+```
+
+
+## Estimating variance
+
+```{r}
+x_yes <- Default$balance[Default$default == "Yes"]
+x_no <- Default$balance[Default$default == "No"]
+var_hat <- 1/(nrow(Default) - 2) * (sum((x_yes - mu_yes)^2) + sum((x_no - mu_no)^2))
+```
+
+
+
