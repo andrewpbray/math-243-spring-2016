@@ -24,7 +24,7 @@ head(Default)
 ```
 
 $$
-\delta_k(x) = x \frac{mu_k}{\sigma} - \frac{mu_k^2}{2\sigma^2} + \log (\pi_k)
+\delta_k(x) = x \cdot \frac{\mu_k}{\sigma^2} - \frac{\mu_k^2}{2\sigma^2} + \log (\pi_k)
 $$
 
 ## Find Estimates
@@ -40,46 +40,50 @@ est <- Default %>%
 est
 ```
 
-## Find Estimates
+## Find Estimates {.build}
+
+Pull off estimates (and convert class).
 
 ```{r}
-mu_n <- est[1, 4]
-mu_y <- est[2, 4]
-pi_n <- est[1, 3]
-pi_y <- est[2, 3]
+pi_n <- as.numeric(est[1, 3])
+pi_y <- as.numeric(est[2, 3])
+mu_n <- as.numeric(est[1, 4])
+mu_y <- as.numeric(est[2, 4])
 sig_sq <- (1/(nrow(Default) - 2)) * sum(est$ssx)
 ```
 
-##
+Write linear discriminant function.
 
 ```{r}
-my_lda <- function(x, pi, mu, sig) {
-  x * (mu/sig) - (mu^2)/(2 * sig^2) + log(pi)
+my_lda <- function(x, pi, mu, sig_sq) {
+  x * (mu/sig_sq) - (mu^2)/(2 * sig_sq) + log(pi)
 }
-
-my_lda(5000, pi_n, mu_n, sqrt(sig_sq))
-my_lda(5000, pi_y, mu_y, sqrt(sig_sq))
 ```
 
-##
+
+## {.build}
 
 ```{r}
-library(MASS)
-train <- sample(1:10000, 1000)
-lda.fit <- lda(default ~ balance, data = Default)
-plot(lda.fit)
+d_n <- my_lda(Default$balance, pi_n, mu_n, sig_sq)
+d_y <- my_lda(Default$balance, pi_y, mu_y, sig_sq)
+```
+
+```{r, echo = FALSE, fig.width=5.5, fig.height = 4, fig.align = "center"}
+library(ggplot2)
+balance <- seq(0, max(Default$balance), length.out = 50)
+dx <- c(my_lda(balance, pi_n, mu_n, sig_sq), my_lda(balance, pi_y, mu_y, sig_sq))
+default <- as.factor(rep(c("No", "Yes"), each = 50))
+df <- data.frame(balance = rep(balance, 2), dx, default)
+
+ggplot(df, aes(x = balance, y = dx, color = default)) +
+  geom_line(lwd = 1.3) + 
+  theme_bw()
 ```
 
 
+## Comparing decision boundaries
 
-
-
-
-##
-
-```{r message=FALSE, warning=FALSE, echo=FALSE}
-library(ggplot2)
-library(dplyr)
+```{r, echo = FALSE}
 Default <- mutate(Default, defaultYes = ifelse(default == "Yes", 1, 0))
   
 p3 <- ggplot(Default, aes(x = balance, y = defaultYes)) +
@@ -87,28 +91,118 @@ p3 <- ggplot(Default, aes(x = balance, y = defaultYes)) +
   ylab("probability of default") + 
   theme_bw()
 
-p3
+m1 <- glm(default ~ balance, data = Default, family = binomial)
+thresh <- (log(.5/.5) - m1$coef[1])/m1$coef[2]
+
+p3 + geom_vline(xintercept = 2000, col = 2) +
+  geom_vline(xintercept = thresh)
 ```
 
 
-## Estimating means
+
+## Comparing predictions {.build}
 
 ```{r}
-(mus <- Default %>%
-  group_by(default) %>%
-  summarize(mean(balance)))
-mu_yes <- as.numeric(c(mus[2, 2]))
-mu_no <- as.numeric(c(mus[1, 2]))
+m1 <- glm(default ~ balance, data = Default, family = binomial)
+my_log_pred <- ifelse(m1$fit < 0.5, "No", "Yes")
+my_lda_pred <- ifelse(d_n > d_y, "No", "Yes")
 ```
-
-
-## Estimating variance
 
 ```{r}
-x_yes <- Default$balance[Default$default == "Yes"]
-x_no <- Default$balance[Default$default == "No"]
-var_hat <- 1/(nrow(Default) - 2) * (sum((x_yes - mu_yes)^2) + sum((x_no - mu_no)^2))
+data.frame(log_pred = my_log_pred[8459:8464],
+           lda_pred = my_lda_pred[8459:8464],
+           true = Default$default[8459:8464])
 ```
 
 
+## Confusion Matrix {.build}
+
+```{r}
+conf_lda <- table(my_lda_pred, Default$default)
+conf_lda
+conf_log <- table(my_log_pred, Default$default)
+conf_log
+```
+
+
+## Assessing predictions
+
+Training misclassification rate (analog of MSE)
+
+$$
+\frac{1}{n}\sum_{i = 1}^n I(y_i \ne \hat{y_i})
+$$
+
+LDA:
+
+```{r}
+(1/nrow(Default)) * (conf_lda[2, 1] + conf_lda[1, 2])
+```
+
+Logisitic:
+
+```{r}
+(1/nrow(Default)) * (conf_log[2, 1] + conf_log[1, 2])
+```
+
+
+## Activity
+
+Compare the *testing* misclassification rate of logistic versus LDA. The code 
+can be found at `github.com/andrewpbray/math-243/assets/week-06/lda.Rmd`. Please
+separate into testing and training as follows:
+
+```{r eval = FALSE}
+set.seed(39)
+test_ind <- sample(1:10000, size = 5000)
+Default_test <- Default[test_in, ]
+Default_train <- Default[-test_in, ]
+```
+
+
+## Types of Errors {.build}
+
+Let's say you work for a bank and you're tasked with building a model that will
+predict whether someone will default given their credit history (i.e. balance).
+
+What could go wrong?
+
+```{r}
+conf_lda
+```
+
+1. Deny credit to someone who would not have defaulted (false positive)
+2. Give credit to somone who will default (false negative)
+
+##
+
+What could we change to lower our false negative rate?
+
+```{r}
+my_log_pred <- ifelse(m1$fit < 0.4, "No", "Yes")
+conf_log_4 <- table(my_log_pred, Default$default)
+conf_log_4
+conf_log
+```
+
+
+#
+
+# LDA with p > 1
+
+## Example: Fisher's Irises
+
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Iris_versicolor_3.jpg/1920px-Iris_versicolor_3.jpg" alt="Iris" width="304" height="228">
+
+```{r}
+head(iris)
+```
+
+
+##
+
+```{r}
+ggplot(iris, aes(x = Sepal.Length, y = Sepal.Width, color = Species)) + 
+  geom_point()
+```
 
