@@ -121,7 +121,7 @@ plotROC(m1)
 
 #
 
-# LDA with p > 1
+# LDA with p > 1, K > 2
 
 ## Example: Fisher's Irises {.flexbox .vcenter}
 
