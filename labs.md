@@ -22,3 +22,6 @@ RMarkdown document. You should complete work on your lab by **Tuesday** at 11:59
 2. <a href = "{{ site.baseurl }}/assets/week-02/lab-2.html" target = "_blank">Simple Regression</a> ([invite](https://classroom.github.com/assignment-invitations/eeccb61f614dec6e1d7309c423d14224)) ([base R key]({{ site.baseurl }}/assets/week-02/lab-2-key-base-R.html)) ([ggplot2 key]({{ site.baseurl }}/assets/week-02/lab-2-key-ggplot2.html))
 
 3. <a href = "{{ site.baseurl }}/assets/week-03/lab-3.html" target = "_blank">Regression Prediction Competition</a> ([invite](https://classroom.github.com/assignment-invitations/231ccf6ff2179babc878234b44cc7be6))
+
+4. <a href = "{{ site.baseurl }}/assets/week-06/lab-4.html" target = "_blank">Classification</a> ([invite](https://classroom.github.com/assignment-invitations/4de6d957bcd81049ec0479e1948fc1c2))
+
