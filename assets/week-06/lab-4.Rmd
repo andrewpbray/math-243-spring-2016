@@ -11,7 +11,7 @@ Our first dataset this week comes from a study of the causes of civil wars.[^1] 
 can be read into from a csv posted online by using the following command.
 
 ```{r}
-war <- read.csv("http://www.stat.cmu.edu/~cshalizi/uADA/15/hw/06/ch.csv")
+war <- read.csv("http://www.stat.cmu.edu/~cshalizi/uADA/15/hw/06/ch.csv", row.names = 1)
 ```
 
 Every row of the data represents a combination of a country and of a five year interval — the
