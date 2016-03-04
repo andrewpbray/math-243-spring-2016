@@ -152,57 +152,57 @@ Compare the *testing* misclassification rate of logistic versus LDA. The code
 can be found at `github.com/andrewpbray/math-243/assets/week-06/lda.Rmd`. Please
 separate into testing and training as follows:
 
-```{r eval = FALSE}
+```{r}
 set.seed(39)
 test_ind <- sample(1:10000, size = 5000)
-Default_test <- Default[test_in, ]
-Default_train <- Default[-test_in, ]
+Default_test <- Default[test_ind, ]
+Default_train <- Default[-test_ind, ]
 ```
 
 
-## Types of Errors {.build}
-
-Let's say you work for a bank and you're tasked with building a model that will
-predict whether someone will default given their credit history (i.e. balance).
-
-What could go wrong?
+## Fit Models (train)
 
 ```{r}
-conf_lda
+m1 <- glm(default ~ balance, data = Default_train, family = binomial)
+
+est <- Default_train %>%
+  group_by(default) %>%
+  summarize(n = n(),
+            prop = n/nrow(Default_train),
+            mu = mean(balance),
+            ssx = var(balance) * (n - 1))
 ```
 
-1. Deny credit to someone who would not have defaulted (false positive)
-2. Give credit to somone who will default (false negative)
 
-##
-
-What could we change to lower our false negative rate?
+## Make predictions (test)
 
 ```{r}
-my_log_pred <- ifelse(m1$fit < 0.4, "No", "Yes")
-conf_log_4 <- table(my_log_pred, Default$default)
-conf_log_4
-conf_log
+log_pred <- predict(m1, newdata = Default_test, type = "response")
+
+d_n <- my_lda(Default_test$balance, pi_n, mu_n, sig_sq)
+d_y <- my_lda(Default_test$balance, pi_y, mu_y, sig_sq)
+
+my_log_pred <- ifelse(log_pred < 0.5, "No", "Yes")
+my_lda_pred <- ifelse(d_n > d_y, "No", "Yes")
 ```
 
 
-#
-
-# LDA with p > 1
-
-## Example: Fisher's Irises
-
-<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Iris_versicolor_3.jpg/1920px-Iris_versicolor_3.jpg" alt="Iris" width="304" height="228">
+## Confusion Matrices
 
 ```{r}
-head(iris)
+(conf_log <- table(my_log_pred, Default_test$default))
+(conf_lda <- table(my_lda_pred, Default_test$default))
 ```
 
 
-##
+## Misclassification Rate
 
 ```{r}
-ggplot(iris, aes(x = Sepal.Length, y = Sepal.Width, color = Species)) + 
-  geom_point()
+(1/nrow(Default_test)) * (conf_log[2, 1] + conf_log[1, 2])
+(1/nrow(Default_test)) * (conf_lda[2, 1] + conf_lda[1, 2])
 ```
+
+
+
+
 
