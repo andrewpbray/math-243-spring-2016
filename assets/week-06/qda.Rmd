@@ -1,0 +1,56 @@
+---
+title: "Linear Discriminant Analysis"
+output: ioslides_presentation
+---
+
+```{r echo = FALSE}
+library(knitr)
+opts_chunk$set(warning = FALSE, message = FALSE)
+```
+
+## Types of Errors {.build}
+
+Let's say you work for a bank and you're tasked with building a model that will
+predict whether someone will default given their credit history (i.e. balance).
+
+What could go wrong?
+
+```{r}
+conf_lda
+```
+
+1. Deny credit to someone who would not have defaulted (false positive)
+2. Give credit to somone who will default (false negative)
+
+##
+
+What could we change to lower our false negative rate?
+
+```{r}
+my_log_pred <- ifelse(m1$fit < 0.4, "No", "Yes")
+conf_log_4 <- table(my_log_pred, Default$default)
+conf_log_4
+conf_log
+```
+
+
+#
+
+# LDA with p > 1
+
+## Example: Fisher's Irises
+
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Iris_versicolor_3.jpg/1920px-Iris_versicolor_3.jpg" alt="Iris" width="304" height="228">
+
+```{r}
+head(iris)
+```
+
+
+##
+
+```{r}
+ggplot(iris, aes(x = Sepal.Length, y = Sepal.Width, color = Species)) + 
+  geom_point()
+```
+
