@@ -199,25 +199,3 @@ mqda_pred <- predict(mqda)
 (sum(conf) - sum(diag(conf)))/sum(conf)
 ```
 
-
-
-
-
-```{r eval = FALSE, echo = FALSE}
-library(MASS)
-mlda <- lda(Species ~ Sepal.Length + Sepal.Width, data = iris)
-ggplot(iris, aes(x = scale(Sepal.Length, scale = FALSE),
-                 y = scale(Sepal.Width, scale = FALSE), color = Species)) + 
-  geom_point() +
-  geom_abline(slope = mlda$scaling[1, 1]/(-mlda$scaling[2, 1])) +
-  geom_abline(slope = mlda$scaling[1, 2]/(-mlda$scaling[2, 2]))
-
-mlda_pred <- predict(mlda)
-table(mlda_pred$class, iris$Species)
-
-mqda <- qda(Species ~ Sepal.Length + Sepal.Width, data = iris)
-mqda_pred <- predict(mqda)
-table(mqda_pred$class, iris$Species)
-```
-
-
