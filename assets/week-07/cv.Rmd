@@ -10,6 +10,7 @@ output:
 Def: *Draw many samples from the training data and refit the model to each in order to learn about your model.*
 
 
+# Cross-Validation
 
 ## Cross-Validation {.build}
 
@@ -186,8 +187,11 @@ ggplot(df, aes(x = err, color = mod)) + geom_density()
 
 ### Downsides
 
-1. 
-2. 
+1. Estimate of test error rate can be highly variable based on the partition.
+2. You only use a fraction of the data to fit the model > overestimating test error rate.
+
+
+# Leave-one-out
 
 
 
