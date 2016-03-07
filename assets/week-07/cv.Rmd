@@ -1,0 +1,5 @@
+---
+title: "Resampling Methods"
+output: ioslides_presentation
+---
+
