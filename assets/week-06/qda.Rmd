@@ -160,6 +160,23 @@ mlda_pred <- predict(mlda)
 (sum(conf) - sum(diag(conf)))/sum(conf)
 ```
 
+##  {.flexbox .vcenter}
+```{r,echo=FALSE}
+contour_data <- expand.grid(Sepal.Length = seq(min(iris$Sepal.Length), max(iris$Sepal.Length), length = 300),
+  Sepal.Width = seq(min(iris$Sepal.Width), max(iris$Sepal.Width), length = 300))
+
+lda_predict <- data.frame(contour_data, Species=as.numeric(predict(mlda, contour_data)$class))
+
+p2 <- ggplot(data=iris, aes(x = Sepal.Length, y = Sepal.Width)) + 
+  geom_point(aes(col=Species)) +
+  stat_contour(aes(x=Sepal.Length, y=Sepal.Width, z=Species), data=lda_predict) +
+  ggtitle("LDA Decision Boundaries")
+
+p2
+
+```
+
+
 
 ## LDA summary {.build}
 
@@ -197,5 +214,18 @@ mqda_pred <- predict(mqda)
 ### Misclassification Rate
 ```{r}
 (sum(conf) - sum(diag(conf)))/sum(conf)
+```
+
+##  {.flexbox .vcenter}
+```{r,echo=FALSE}
+qda_predict <- data.frame(contour_data, Species=as.numeric(predict(mqda, contour_data)$class))
+
+p3 <- ggplot(data=iris, aes(x = Sepal.Length, y = Sepal.Width)) + 
+  geom_point(aes(col=Species)) +
+  stat_contour(aes(x=Sepal.Length, y=Sepal.Width, z=Species), data=qda_predict) +
+  ggtitle("QDA Decision Boundaries")
+
+p3
+
 ```
 
