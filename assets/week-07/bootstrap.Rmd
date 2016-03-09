@@ -1,0 +1,84 @@
+---
+title: "The Bootstrap"
+output:
+  ioslides_presentation:
+    incremental: true
+---
+
+##
+
+![bootstrap](http://studywithkate.com/wp-content/uploads/2015/01/bootstrap.png)
+
+
+## The Bootstrap {.build}
+
+A widely applicable and powerful statistical tool used to quantify
+the uncertainty of a given estimate or model.
+
+### Basic Idea
+With a dataset of $n$ obs to which you've fit an estimate $\hat{\theta}$.
+
+1. Draw a bootstrap sample, of size $n$ **with replacement**.
+2. Fit your estimate, $\hat{\theta}^*$ to the boostrap sample.
+3. Repeat 1-2 many times and assess the variability in your estimate by looking at the *bootstrap distribution*.
+
+
+## Ex: Simple Regression
+
+Is there a relationship between fractionalization and growth?
+
+```{r echo = FALSE, message=FALSE, warning = FALSE}
+war <- read.csv("http://www.stat.cmu.edu/~cshalizi/uADA/15/hw/06/ch.csv")
+
+library(ggplot2)
+ggplot(war, aes(fractionalization, growth)) +
+  geom_point(alpha = .3) +
+  stat_smooth(method = "lm", se = FALSE, col = "orchid")
+m1 <- lm(growth ~ fractionalization, data = war)
+```
+
+
+## Bootstrapping $\beta_1$ {.build}
+```{r echo = FALSE, message = FALSE}
+it <- 5000
+betas <- rep(NA, it)
+
+library(dplyr)
+war <- war %>%
+  select(growth, fractionalization) %>%
+  na.omit()
+```
+
+```{r cache=TRUE}
+for(i in 1:it) {
+  boot_ind <- sample(1:nrow(war), size = nrow(war), replace = TRUE)
+  war_boot <- war[boot_ind, ]
+  betas[i] <- coef(lm(growth ~ fractionalization, data = war_boot))[2]
+}
+```
+
+```{r echo = FALSE, warning=FALSE, message = FALSE, fig.height=3.2}
+df <- data.frame(betas)
+ggplot(df, aes(betas)) + geom_histogram(col = "white")
+```
+
+
+## Bootstrap distribution
+
+```{r}
+mean(betas)
+sd(betas)
+summary(m1)$coef
+```
+
+
+## 
+
+- 
+
+
+
+
+
+
+
