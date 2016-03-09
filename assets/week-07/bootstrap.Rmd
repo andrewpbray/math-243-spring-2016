@@ -38,11 +38,8 @@ m1 <- lm(growth ~ fractionalization, data = war)
 ```
 
 
-## Bootstrapping $\beta_1$ {.build}
+## Bootstrapping $\hat{\beta}_1$ {.build}
 ```{r echo = FALSE, message = FALSE}
-it <- 5000
-betas <- rep(NA, it)
-
 library(dplyr)
 war <- war %>%
   select(growth, fractionalization) %>%
@@ -50,7 +47,8 @@ war <- war %>%
 ```
 
 ```{r cache=TRUE}
-for(i in 1:it) {
+betas <- rep(NA, 5000)
+for(i in 1:5000) {
   boot_ind <- sample(1:nrow(war), size = nrow(war), replace = TRUE)
   war_boot <- war[boot_ind, ]
   betas[i] <- coef(lm(growth ~ fractionalization, data = war_boot))[2]
@@ -72,13 +70,53 @@ summary(m1)$coef
 ```
 
 
-## 
+## {.build}
 
-- 
+In this case, the bootstrap estimate of $SE(\hat{\beta}_1)$ is quite similar to those from the t-distribution.  Why?
+
+```{r echo = FALSE, fig.height=5}
+par(mfrow = c(2, 2))
+plot(m1)
+```
 
 
+## A common argument {.build}
+
+*Parametric methods have assumptions that often aren't reasonable, therefore the boostrap is preferable because it's assumption free.*
+
+The bootstrap requires a sample that captures the important structure in the data. Difficult with small samples of skewed data.
+
+But it sure is flexible . . .
 
 
+## {.build}
 
+Is there a relationship between fractionalization and growth in terms of the **correlation coefficient**?
+
+```{r echo = FALSE, message=FALSE, warning = FALSE, fig.height = 4}
+ggplot(war, aes(fractionalization, growth)) +
+  geom_point(alpha = .3) +
+  stat_smooth(method = "lm", se = FALSE, col = "orchid")
+m1 <- lm(growth ~ fractionalization, data = war)
+```
+
+r = `r round(cor(war$fractionalization, war$growth), digits = 3)`
+
+
+## Bootstrapping $r$
+
+```{r cache=TRUE}
+corrs <- rep(NA, 5000)
+for(i in 1:5000) {
+  boot_ind <- sample(1:nrow(war), size = nrow(war), replace = TRUE)
+  war_boot <- war[boot_ind, ]
+  corrs[i] <- cor(war_boot$fractionalization, war_boot$growth)
+}
+```
+
+```{r echo = FALSE, warning=FALSE, message = FALSE, fig.height=3.2}
+df <- data.frame(corrs)
+ggplot(df, aes(corrs)) + geom_histogram(col = "white")
+```
 
 
