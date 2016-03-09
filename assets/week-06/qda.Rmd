@@ -169,7 +169,8 @@ lda_predict <- data.frame(contour_data, Species=as.numeric(predict(mlda, contour
 
 p2 <- ggplot(data=iris, aes(x = Sepal.Length, y = Sepal.Width)) + 
   geom_point(aes(col=Species)) +
-  stat_contour(aes(x=Sepal.Length, y=Sepal.Width, z=Species), data=lda_predict) +
+  stat_contour(aes(x=Sepal.Length, y=Sepal.Width, z=Species), data=lda_predict, 
+               col = 1, lineend = "round") +
   ggtitle("LDA Decision Boundaries")
 
 p2
@@ -222,7 +223,7 @@ qda_predict <- data.frame(contour_data, Species=as.numeric(predict(mqda, contour
 
 p3 <- ggplot(data=iris, aes(x = Sepal.Length, y = Sepal.Width)) + 
   geom_point(aes(col=Species)) +
-  stat_contour(aes(x=Sepal.Length, y=Sepal.Width, z=Species), data=qda_predict) +
+  stat_contour(aes(x=Sepal.Length, y=Sepal.Width, z=Species), data=qda_predict, col = 1) +
   ggtitle("QDA Decision Boundaries")
 
 p3
