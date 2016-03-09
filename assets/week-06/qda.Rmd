@@ -162,6 +162,7 @@ mlda_pred <- predict(mlda)
 
 ##  {.flexbox .vcenter}
 ```{r,echo=FALSE}
+# credit to dean young for this plot
 contour_data <- expand.grid(Sepal.Length = seq(min(iris$Sepal.Length), max(iris$Sepal.Length), length = 300),
   Sepal.Width = seq(min(iris$Sepal.Width), max(iris$Sepal.Width), length = 300))
 
@@ -219,6 +220,7 @@ mqda_pred <- predict(mqda)
 
 ##  {.flexbox .vcenter}
 ```{r,echo=FALSE}
+# credit to dean young for this plot
 qda_predict <- data.frame(contour_data, Species=as.numeric(predict(mqda, contour_data)$class))
 
 p3 <- ggplot(data=iris, aes(x = Sepal.Length, y = Sepal.Width)) + 
