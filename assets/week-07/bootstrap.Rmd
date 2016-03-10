@@ -103,7 +103,7 @@ m1 <- lm(growth ~ fractionalization, data = war)
 r = `r round(cor(war$fractionalization, war$growth), digits = 3)`
 
 
-## Bootstrapping $r$
+## Bootstrapping $r$ {.build}
 
 ```{r cache=TRUE}
 corrs <- rep(NA, 5000)
@@ -118,5 +118,25 @@ for(i in 1:5000) {
 df <- data.frame(corrs)
 ggplot(df, aes(corrs)) + geom_histogram(col = "white")
 ```
+
+
+## Bootstrapping v. CV {.build .smaller}
+
+Both are computationally intensive methods that involve sampling from your data set to learn more about your estimate/model.
+
+### Cross-validation
+Often used for *model assessment* and *model selection*.
+
+- Partition data into test and train
+- Fit model to train, predict on test
+- Iterate though all possible *folds* (not for VS)
+- Compute aggregate measure of predictive ability
+
+### Bootstrapping
+Often used for quantifying uncertainty
+
+- Draw a bootstrap sample of size $n$ from your data *with replacement*.
+- Compute estimate of interest
+- Consider distribution of bootstrap estimates over many samples
 
 
