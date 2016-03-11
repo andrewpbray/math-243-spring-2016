@@ -5,3 +5,6 @@ _site/
 .RData
 .Ruserdata
 math-243.Rproj
+*.log
+*.synctex.gz
+*concordance.tex
