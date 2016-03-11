@@ -15,6 +15,6 @@ work. Problem sets are due every **Friday** at the beginning of class.
 
 Problem Set 3 ([invite](https://classroom.github.com/assignment-invitations/43e77d80aed4221658726e3971bd4216)) due Tuesday Feb. 23
 
-[Problem Set 4]({{ site.baseurl }}/assets/week-06/ps-4.html)
+[Problem Set 4]({{ site.baseurl }}/assets/week-06/ps-4.html)  ([key]({{ site.baseurl }}/assets/week-06/ps-4-key.pdf))
 
 [Problem Set 5]({{ site.baseurl }}/assets/week-07/ps-5.html)
