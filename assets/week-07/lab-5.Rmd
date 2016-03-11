@@ -10,7 +10,14 @@ output:
 
 Our data set this week looks at the relationship between US stock prices, the earnings of the corporations, and the returns on investment in stocks, with returns counting both changes in stock price and dividends paid to stock holders. A corporation’s **earnings** in a given year is its income minus its expenses. The return on an investment over a year is the fractional change in its value, $(v_{t+1} - v_t)/v_t$, and the average rate of return over $k$ years is $[(v_{t+k} - v_t)/v_t]^{1/k}$.  
 
-Specifically, our data contains the following variables:
+To read in the data from a csv the course website, you can use:
+
+```{r eval = FALSE}
+d <- read.csv("http://andrewpbray.github.io/math-243/assets/data/stock_history.csv")
+```
+
+
+The dataset contains the following variables:
 
 - `Date`, with fractions of a year indicating months
 - `Price` of an index of US stocks (inflation-adjusted)
@@ -41,7 +48,7 @@ get through five-fold CV.
 ### 4. Is simple sufficient?
 The model that we fit in no. 2 is very similar to the simple-minded model. Let's compare the similarity in these models. We could go about this in two ways. We could *simulate* from the simple-minded model many times and fit a model of the same form as no. 2 to each one to see if our observed slope in no. 2 is probable under the simple-minded model. We could also *bootstrap* the data set many times, fitting model 2 each time, then see where the simple-minded model lays in that distribution. Since we already have practiced with simulation, let's do the bootstrap method.
 
-a. Form the bootstrap distribution for the slope of `1/MAPE` (slides from last class may be helpful). Plot this distribution with the paramter of interest (the slope corresponding to the simple-minded model) indicated by a vertical line.
+a. Form the bootstrap distribution for the slope of `1/MAPE` (slides from last class may be helpful). Plot this distribution with the parameter of interest (the slope corresponding to the simple-minded model) indicated by a vertical line.
 b. What is the approximate 95% bootstrap confidence interval for the slope? How does this interval compare to the one returned by running `confint()` on your model object from question 2? Please explain any difference you've found.
 
 
