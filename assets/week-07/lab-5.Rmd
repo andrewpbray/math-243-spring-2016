@@ -30,7 +30,7 @@ The dataset contains the following variables:
 
 ### 1. Inventing a variable
 a. Add a new column, `MAPE` to the data frame, which is the ratio of `Price` to `Earnings_10MA_back`. Bring up the summary statistics for the new column using the `summary()` command. Why are there exactly 120 NAs? For ease of computing for the rest of the lab, you may want to remove all rows with any missing data.
-b. Build a linear model to predict the returns of `MAPE`. What is the coefficient and it's standard error? Is it significant?
+b. Build a linear model to predict returns using `MAPE` (and nothing else). What is the coefficient and it's standard error? Is it significant?
 c. What is the MSE of this model under five-fold CV? I recommend you go about this by adding a column to your data frame indicating the randomly assigned *fold* to which every observation belongs. Then use a for-loop to fit and predict across each of the five folds, where you can use the appropriate data by subsetting based on the fold.
 
 ### 2. Inverting a variable

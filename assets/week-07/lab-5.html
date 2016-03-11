@@ -160,7 +160,7 @@ $(document).ready(function () {
 <h3>1. Inventing a variable</h3>
 <ol style="list-style-type: lower-alpha">
 <li>Add a new column, <code>MAPE</code> to the data frame, which is the ratio of <code>Price</code> to <code>Earnings_10MA_back</code>. Bring up the summary statistics for the new column using the <code>summary()</code> command. Why are there exactly 120 NAs? For ease of computing for the rest of the lab, you may want to remove all rows with any missing data.</li>
-<li>Build a linear model to predict the returns of <code>MAPE</code>. What is the coefficient and it’s standard error? Is it significant?</li>
+<li>Build a linear model to predict returns using <code>MAPE</code> (and nothing else). What is the coefficient and it’s standard error? Is it significant?</li>
 <li>What is the MSE of this model under five-fold CV? I recommend you go about this by adding a column to your data frame indicating the randomly assigned <em>fold</em> to which every observation belongs. Then use a for-loop to fit and predict across each of the five folds, where you can use the appropriate data by subsetting based on the fold.</li>
 </ol>
 </div>
