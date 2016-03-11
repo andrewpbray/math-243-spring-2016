@@ -99,7 +99,7 @@ $(document).ready(function () {
 
 <div id="past-performance-future-results1" class="section level3">
 <h3>Past Performance, Future Results<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a></h3>
-<p>A corporation’s <strong>earnings</strong> in a given year is its income minus its expenses. The return on an investment over a year is the fractional change in its value, <span class="math inline">\((v_{t+1} - v_t)/v_t\)</span>, and the average rate of return over <span class="math inline">\(k\)</span> years is <span class="math inline">\([(v_{t+k} - v_t)/v_t]^{1/k}\)</span>. Our data set this week looks at the relationship between US stock prices, the earnings of the corporations, and the returns on investment in stocks, with returns counting both changes in stock price and dividends paid to stock holders.</p>
+<p>Our data set this week looks at the relationship between US stock prices, the earnings of the corporations, and the returns on investment in stocks, with returns counting both changes in stock price and dividends paid to stock holders. A corporation’s <strong>earnings</strong> in a given year is its income minus its expenses. The return on an investment over a year is the fractional change in its value, <span class="math inline">\((v_{t+1} - v_t)/v_t\)</span>, and the average rate of return over <span class="math inline">\(k\)</span> years is <span class="math inline">\([(v_{t+k} - v_t)/v_t]^{1/k}\)</span>.</p>
 <p>Specifically, our data contains the following variables:</p>
 <ul>
 <li><code>Date</code>, with fractions of a year indicating months</li>
@@ -110,6 +110,53 @@ $(document).ready(function () {
 <li><code>Return_10_fwd</code>, the average rate of return over the next 10 years from the current date.</li>
 </ul>
 <p>“Returns” will refer to <code>Return_10_fwd</code> throughout.</p>
+</div>
+<div id="inventing-a-variable" class="section level3">
+<h3>1. Inventing a variable</h3>
+<ol style="list-style-type: lower-alpha">
+<li>Add a new column, <code>MAPE</code> to the data frame, which is the ratio of <code>Price</code> to <code>Earnings_10MA_back</code>. Bring up the summary statistics for the new column using the <code>summary()</code> command. Why are there exactly 120 NAs? For ease of computing for the rest of the lab, you may want to remove all rows with any missing data.</li>
+<li>Build a linear model to predict the returns of <code>MAPE</code>. What is the coefficient and it’s standard error? Is it significant?</li>
+<li>What is the MSE of this model under five-fold CV? I recommend you go about this by adding a column to your data frame indicating the randomly assigned <em>fold</em> to which every observation belongs. Then use a for-loop to fit and predict across each of the five folds, where you can use the appropriate data by subsetting based on the fold.</li>
+</ol>
+</div>
+<div id="inverting-a-variable" class="section level3">
+<h3>2. Inverting a variable</h3>
+<ol style="list-style-type: lower-alpha">
+<li>Build a linear model to predict returns using <code>1/MAPE</code> (and nothing else). What is the coefficient and its standard error? Is it significant?</li>
+<li>What is the CV MSE of this model? How does it compare to the previous one?</li>
+</ol>
+</div>
+<div id="a-simple-model" class="section level3">
+<h3>3. A simple model</h3>
+<p>A simple-minded model says that the expected returns over the next ten years should be exactly equal to <code>1/MAPE</code>.</p>
+<ol style="list-style-type: lower-alpha">
+<li>Find the <em>training</em> MSE for this model.</li>
+<li>Explain why the training MSE is equivalent the estimate of test MSE that we would get through five-fold CV.</li>
+</ol>
+</div>
+<div id="is-simple-sufficient" class="section level3">
+<h3>4. Is simple sufficient?</h3>
+<p>The model that we fit in no. 2 is very similar to the simple-minded model. Let’s compare the similarity in these models. We could go about this in two ways. We could <em>simulate</em> from the simple-minded model many times and fit a model of the same form as no. 2 to each one to see if our observed slope in no. 2 is probable under the simple-minded model. We could also <em>bootstrap</em> the data set many times, fitting model 2 each time, then see where the simple-minded model lays in that distribution. Since we already have practiced with simulation, let’s do the bootstrap method.</p>
+<ol style="list-style-type: lower-alpha">
+<li>Form the bootstrap distribution for the slope of <code>1/MAPE</code> (slides from last class may be helpful). Plot this distribution with the paramter of interest (the slope corresponding to the simple-minded model) indicated by a vertical line.</li>
+<li>What is the approximate 95% bootstrap confidence interval for the slope? How does this interval compare to the one returned by running <code>confint()</code> on your model object from question 2? Please explain any difference you’ve found.</li>
+</ol>
+</div>
+<div id="one-big-happy-plot" class="section level3">
+<h3>5. One big happy plot</h3>
+<p>For this problem, you need to only include one plot and one paragraph of writing. Also, in this problem, take “line” to mean “straight or curved line” as appropriate, and be sure to plot actual lines and not disconnected points.</p>
+<ol style="list-style-type: lower-alpha">
+<li>Make a scatterplot of the returns against <code>MAPE</code>.</li>
+<li>Add two lines showing the predictions from the models you fit in problems 1 and 2.</li>
+<li>Add a line showing the predictions from the simple-minded model from problem 3.</li>
+</ol>
+</div>
+<div id="the-big-picture" class="section level3">
+<h3>The big picture</h3>
+<ol style="list-style-type: lower-alpha">
+<li><strong>Cross-validation for model selection</strong>: using CV MSE, which model would you select to make predictions of returns? Looking at the plot in question 5, does this seem like a good model? What are it’s strengths and weaknesses for prediction?</li>
+<li><strong>Bootstrapping for uncertainty estimation</strong>: based on your bootstrapping procedure for the slope of the linear model using <code>1/MAPE</code> as a predictor, is the simple-minded model a plausible model given our data?</li>
+</ol>
 </div>
 <div class="footnotes">
 <hr />
