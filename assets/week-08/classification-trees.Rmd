@@ -1,0 +1,90 @@
+---
+title: "Classification Trees"
+output:
+  ioslides_presentation:
+    incremental: true
+---
+
+# Classification Trees
+
+## Ex. MLB {.build .vcenter .flexbox}
+
+```{r}
+library(ISLR)
+names(Hitters)
+```
+
+Can we predict the league that a player is in based on his other variables?
+
+<img src="https://blog.sysomos.com/wp-content/uploads/2013/10/american-league-logo1-300x150.jpg"> 
+
+## Fitting a tree {.build}
+
+```{r eval = FALSE}
+library(tree)
+t1 <- tree(League ~. - NewLeague, data = Hitters, split = "gini")
+plot(t1)
+text(t1, pretty = 0)
+```
+
+**Default stopping rule**: stop splitting when terminal nodes get too small.
+
+
+## Fitting a tree {.build}
+
+```{r echo = FALSE}
+library(tree)
+t1 <- tree(League ~. - NewLeague, data = Hitters, split = "gini")
+plot(t1)
+text(t1, pretty = 0)
+```
+
+Too much?
+
+## Cost-complexity pruning {.build}
+
+Assess the performance of many trees with size indexed by $\alpha$ via 10-fold cross-validation on misclassification rate.
+
+```{r eval = TRUE}
+set.seed(40)
+t1cv <- cv.tree(t1, FUN = prune.misclass)
+names(t1cv)
+```
+
+```{r eval = FALSE}
+plot(t1cv$k, t1cv$dev, type = "b")
+plot(t1cv$size, t1cv$dev, type = "b")
+```
+
+
+## Alpha vs Error
+
+```{r echo = FALSE}
+plot(t1cv$k, t1cv$dev, type = "b", xlab = "alpha", ylab = "error")
+```
+
+
+## Size vs Error
+
+```{r echo = FALSE}
+plot(t1cv$size, t1cv$dev, type = "b", xlab = "n leaves", ylab = "error")
+```
+
+
+## Prune the tree
+
+```{r}
+t1cv$size[which.min(t1cv$dev)]
+t1prune <- prune.misclass(t1, best = 15)
+```
+
+```{r echo = FALSE}
+plot(t1prune)
+text(t1prune, pretty = 0)
+```
+
+
+## Activity
+
+
+
