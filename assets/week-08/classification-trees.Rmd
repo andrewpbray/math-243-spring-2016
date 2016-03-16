@@ -48,7 +48,7 @@ Assess the performance of many trees with size indexed by $\alpha$ via 10-fold c
 ```{r eval = TRUE}
 set.seed(40)
 t1cv <- cv.tree(t1, FUN = prune.misclass)
-names(t1cv)
+t1cv
 ```
 
 ```{r eval = FALSE}
@@ -84,7 +84,14 @@ text(t1prune, pretty = 0)
 ```
 
 
-## Activity
+## Activity: Off in the distance
+
+Return to your Lab 4, where you fit Logistic and an LDA model for the civil wars
+data set. Add to this lab a classification tree that has been pruned back.
+
+1. What is the training misclassification rate? (code for creating the confusion
+matrix can be found on p. 327 of your book)
+2. How does this rate compare to the other classification models that you used in Lab 4? Why do you think this is?
 
 
 
