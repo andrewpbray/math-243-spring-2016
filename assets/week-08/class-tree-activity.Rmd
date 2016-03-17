@@ -1,0 +1,19 @@
+---
+title: "Classification Trees Schematic"
+output: html_document
+---
+
+```{r}
+set.seed(77)
+n <- 16
+x1 <- runif(n)
+x2 <- runif(n)
+group <- as.factor(sample(1:3, n, replace = TRUE))
+df <- data.frame(x1, x2, group)
+
+library(ggplot2)
+ggplot(df, aes(x = x1, y = x2, col = group)) +
+  geom_point()
+
+```
+
