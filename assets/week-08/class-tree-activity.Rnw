@@ -1,7 +1,40 @@
 \documentclass{article}
+\usepackage{graphicx, color, hyperref}
+\usepackage[top=1in, bottom=1in, left=.5in, right=1in]{geometry}
 
 \begin{document}
 
+\begin{minipage}{.4\linewidth}
+{\includegraphics[scale=0.6]{3-class-plot}}
+\end{minipage}
+\begin{minipage}{.6\linewidth}
+The plot at left represents the predictor space (on $X_1$ and $X_2$) with a training data set plotted and the class of their response variable indicated by the color.
+
+\begin{itemize}
+\setlength\itemsep{2em}
+\item If we consider this a classification tree without any splits yet (i.e. only one region $\textrm{R}_1$), what would be the prediction for \emph{every} new observation?
+\item What is the (training) misclassification rate?
+\item What is the GINI index?
+\item What is the cross-entropy?
+\end{itemize}
+
+\end{minipage}
+
+\begin{minipage}{.4\linewidth}
+{\includegraphics[scale=0.6]{3-class-plot}}
+\end{minipage}
+\begin{minipage}{.6\linewidth}
+The plot at left represents the predictor space (on $X_1$ and $X_2$) with a training data set plotted and the class of their response variable indicated by the color.
+
+\begin{itemize}
+\setlength\itemsep{2em}
+\item If we consider this a classification tree without any splits yet (i.e. only one region $\textrm{R}_1$), what would be the prediction for \emph{every} new observation?
+\item What is the (training) misclassification rate?
+\item What is the GINI index?
+\item What is the cross-entropy?
+\end{itemize}
+
+\end{minipage}
 
 
 
