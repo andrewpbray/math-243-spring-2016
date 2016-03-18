@@ -3,7 +3,7 @@
 
 %\input{../brayTeachingStyle}
 
-\usepackage[top=.5in, bottom=.5in, left=1in, right=1.3in]{geometry}
+\usepackage[top=.5in, bottom=.5in, left=1.1in, right=1.1in]{geometry}
 \thispagestyle{empty}
 \begin{document}
 
@@ -11,8 +11,6 @@
 \textsc{Math 243: Statistical Learning} \\
 \noindent\rule{12cm}{0.4pt}
 \end{center}
-
-
 
 
 \begin{enumerate}
