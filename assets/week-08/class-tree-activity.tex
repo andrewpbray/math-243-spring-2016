@@ -48,13 +48,22 @@
 \newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
 
 \usepackage{alltt}
-\usepackage{graphicx, color, hyperref}
+\usepackage{graphicx, color, hyperref, fancyhdr}
 
-\input{../brayTeachingStyle}
+%\input{../brayTeachingStyle}
 
-\usepackage[top=1in, bottom=1in, left=1in, right=1in]{geometry}
+\usepackage[top=.5in, bottom=.5in, left=1in, right=1.3in]{geometry}
+\thispagestyle{empty}
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
 \begin{document}
+
+\begin{center}
+\textsc{Math 243: Statistical Learning} \\
+\noindent\rule{12cm}{0.4pt}
+\end{center}
+
+
+
 
 \begin{enumerate}
 \setlength\itemsep{4em}
