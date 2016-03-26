@@ -26,3 +26,5 @@ RMarkdown document. You should complete work on your lab by **Tuesday** at 11:59
 4. <a href = "{{ site.baseurl }}/assets/week-06/lab-4.html" target = "_blank">Classification</a> ([invite](https://classroom.github.com/assignment-invitations/4de6d957bcd81049ec0479e1948fc1c2))
 
 5. <a href = "{{ site.baseurl }}/assets/week-07/lab-5.html" target = "_blank">Resampling</a> ([invite](https://classroom.github.com/assignment-invitations/cc19823d9437d0d60b015cd2119a9bcb))
+
+6. <a href = "{{ site.baseurl }}/assets/week-10/lab-6.html" target = "_blank">Trees</a> ([invite](https://classroom.github.com/assignment-invitations/3266aa271c670745093e7904285309ca))
