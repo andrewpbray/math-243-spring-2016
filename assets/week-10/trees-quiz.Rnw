@@ -1,0 +1,24 @@
+\documentclass{article}
+\usepackage{graphicx, color, hyperref, fancyhdr}
+
+%\input{../brayTeachingStyle}
+
+\usepackage[top=.5in, bottom=.5in, left=1.1in, right=1.1in]{geometry}
+\thispagestyle{empty}
+\begin{document}
+
+\begin{center}
+\textsc{Math 243: Statistical Learning} \\
+\noindent\rule{12cm}{0.4pt}
+\end{center}
+
+\subsection*{Trees Quiz}
+
+\begin{enumerate}
+\setlength\itemsep{4em}
+
+\item Question the first.
+
+\end{enumerate}
+
+\end{document}
