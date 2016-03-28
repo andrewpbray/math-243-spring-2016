@@ -4,8 +4,21 @@ output:
   ioslides_presentation:
     incremental: true
 ---
+# Quiz Review
 
-# Random Forests
+## The Algorithm {.build}
+
+1. Use RBS to grow a large tree on full data, stopping when every leaf has a 
+small number of obs.
+2. Apply cost-complexity pruning to obtain a best subtree for many values of $\alpha$.
+3. Use k-fold CV to choose $\alpha$. For each fold:
+    - Repeat (1) and (2) on training data.
+    - Compute the test MSE on all subtrees (one test MSE per $\alpha$).
+    Average the test MSEs for each $\alpha$ and choose $\alpha$ that minimizes.
+4. Use that $\alpha$ to select your best subtree in (2)
+
+
+# Bagging and Random Forests
 
 ## Review {.build}
 

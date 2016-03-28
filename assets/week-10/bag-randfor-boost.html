@@ -83,7 +83,23 @@
           </hgroup>
   </slide>
 
-<slide class='segue dark nobackground'><hgroup class = 'auto-fadein'><h2>Random Forests</h2></hgroup><article  id="random-forests">
+<slide class='segue dark nobackground'><hgroup class = 'auto-fadein'><h2>Quiz Review</h2></hgroup><article  id="quiz-review">
+
+</article></slide><slide class=''><hgroup><h2>The Algorithm</h2></hgroup><article  id="the-algorithm" class="build">
+
+<ol class = 'build'>
+<li>Use RBS to grow a large tree on full data, stopping when every leaf has a small number of obs.</li>
+<li>Apply cost-complexity pruning to obtain a best subtree for many values of \(\alpha\).</li>
+<li>Use k-fold CV to choose \(\alpha\). For each fold:
+
+<ul class = 'build'>
+<li>Repeat (1) and (2) on training data.</li>
+<li>Compute the test MSE on all subtrees (one test MSE per \(\alpha\)). Average the test MSEs for each \(\alpha\) and choose \(\alpha\) that minimizes.</li>
+</ul></li>
+<li>Use that \(\alpha\) to select your best subtree in (2)</li>
+</ol>
+
+</article></slide><slide class='segue dark nobackground'><hgroup class = 'auto-fadein'><h2>Bagging and Random Forests</h2></hgroup><article  id="bagging-and-random-forests">
 
 </article></slide><slide class=''><hgroup><h2>Review</h2></hgroup><article  id="review" class="build">
 
@@ -257,7 +273,9 @@ weak2 &lt;- prune.tree(t3, best = 2)</pre>
 <li>Final boosted prediction:</li>
 </ul>
 
-<p>\[ \hat{f}(x) = \frac{1}{B} \sum_{b = 1}^B \hat{f}^b(x)\]</p></article></slide>
+<p>\[ \hat{f}(x) = \frac{1}{B} \sum_{b = 1}^B \hat{f}^b(x)\]</p>
+
+<p>well, that&#39;s close, but we can be a bit more flexible.</p></article></slide>
 
 
   <slide class="backdrop"></slide>
