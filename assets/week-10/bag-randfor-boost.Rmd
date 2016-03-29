@@ -203,7 +203,7 @@ text(weak2, pretty = 0)
 - Stop after you've made a total of $B$ trees.
 - Final boosted prediction:
 
-$$ \hat{f}(x) = \frac{1}{B} \sum_{b = 1}^B \hat{f}^b(x)$$
+$$ \hat{f}(x) = \sum_{b = 1}^B \hat{f}^b(x)$$
 
 well, that's close, but we can be a bit more flexible.
 
