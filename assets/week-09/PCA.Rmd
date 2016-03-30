@@ -1,0 +1,25 @@
+---
+title: "PCA"
+output:
+  ioslides_presentation:
+    incremental: true
+---
+
+##
+
+```{r}
+library(SensoMineR)
+library(FactoMineR)
+experts <- read.table(file = "../data/perfumes.csv", header = TRUE, sep = ",",
+                      dec = ".", quote= "\"")
+
+# By using thesubset function, the experts dataset is divided by session.
+perfumes_qda_session1 <- subset(experts,Session==1)
+
+res1 <- decat(perfumes_qda_session1,formul="~Product+Panelist",firstvar=5,graph=FALSE)
+
+# A PCA is performed on the table of means for each session using the PCA function.
+res1.pca <- PCA(res1$adjmean)
+
+```
+
