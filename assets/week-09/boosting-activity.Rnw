@@ -1,0 +1,43 @@
+\documentclass{article}
+\usepackage{graphicx, color, hyperref, fancyhdr}
+
+%\input{../brayTeachingStyle}
+
+\usepackage[top=.5in, bottom=.5in, left=1.1in, right=1.1in]{geometry}
+\thispagestyle{empty}
+\begin{document}
+
+\begin{center}
+\textsc{Math 243: Statistical Learning} \\
+\noindent\rule{12cm}{0.4pt}
+\end{center}
+
+\begin{minipage}{.5\linewidth}
+{\includegraphics[scale=0.6]{scatterA.pdf}}
+\end{minipage}
+
+\begin{minipage}{.5\linewidth}
+jk
+\end{minipage}
+
+<<echo = FALSE, results = 'asis'>>=
+set.seed(495)
+mt <- mtcars[sample(1:nrow(mtcars), 8), ]
+mt$disp <- mt$disp + rnorm(nrow(mt), sd = 30)
+mt$wt <- mt$wt + rnorm(nrow(mt), sd = 1.1)
+mt <- mt[, c("disp", "wt", "mpg")]
+mt$r
+names(mt) <- c("X1", "X2", "Y")
+rownames(mt) <- NULL
+mt$Y <- round(mt$Y, digits = 0)
+mt$f1 <- rep(NA, 8)
+mt$r1 <- rep(NA, 8)
+names(mt)[4:5] <- c("$\\hat{f}^1(x)$", "r")
+library(xtable)
+print(xtable(mt), sanitize.colnames.function = identity)
+@
+
+\begin{table}[ht]
+
+
+\end{document}
