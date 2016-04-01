@@ -20,3 +20,5 @@ Problem Set 3 ([invite](https://classroom.github.com/assignment-invitations/43e7
 [Problem Set 5]({{ site.baseurl }}/assets/week-07/ps-5.html)
 
 [Problem Set 6]({{ site.baseurl }}/assets/week-08/ps-6.html)
+
+[Problem Set 7]({{ site.baseurl }}/assets/week-09/ps-7.html)
