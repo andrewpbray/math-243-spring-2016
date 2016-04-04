@@ -146,7 +146,7 @@ $(document).ready(function () {
 <p>One of the most useful applications to come out of classification models has been character (i.e. letter) recognition. In this lab, we build our own character recognition system using boosted trees.</p>
 <div id="the-data" class="section level4">
 <h4>The data</h4>
-<p>Our data set consists of a catalog of 20,000 images of letters. Initially, the images were 45 x 45 pixels, each of which was characterized as either “on” or “off” (black or white). In order to extract more meaningful predictors from the data, resesearchers <a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a> went through and performed <em>feature extraction</em>, collapsing those 20255 dimensions into 16, each of which is a summary statistic calculated on the image. They are as follows:</p>
+<p>Our data set consists of a catalog of 20,000 images of letters. Initially, the each image was made up of 45 x 45 pixels, where each was characterized as either “on” or “off” (black or white). In order to extract more meaningful predictors from the data, resesearchers <a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a> went through and performed <em>feature extraction</em>, collapsing those 2025 dimensions into 16, each of which is a summary statistic calculated on the image. They are as follows:</p>
 <ol style="list-style-type: decimal">
 <li>The horizontal position, counting pixels from the left edge of the image, of the center of the smallest rectangular box that can be drawn with all “on” pixels inside the box.</li>
 <li>The vertical position, counting pixels from the bottom, of the above box.</li>
@@ -197,7 +197,7 @@ train &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="
 </div>
 <div id="communities-and-crime" class="section level3">
 <h3>Communities and Crime</h3>
-<p>Return to the Communities and Crime data set. In the last lab you added bagged trees and random forests to your model portfolio in trying to predict the crime level. Constructed model based on a boosted tree with parameters of your choosing. How does the test MSE compare to your existing models?</p>
+<p>Return to the Communities and Crime data set. In the last lab you added bagged trees and random forests to your model portfolio in trying to predict the crime level. Construct a model based on a boosted tree with parameters of your choosing. How does the test MSE compare to your existing models?</p>
 </div>
 <div class="footnotes">
 <hr />

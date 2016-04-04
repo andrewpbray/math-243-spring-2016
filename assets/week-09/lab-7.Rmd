@@ -13,7 +13,7 @@ output:
 One of the most useful applications to come out of classification models has been character (i.e. letter) recognition. In this lab, we build our own character recognition system using boosted trees.
 
 #### The data
-Our data set consists of a catalog of 20,000 images of letters. Initially, the images were 45 x 45 pixels, each of which was characterized as either "on" or "off" (black or white). In order to extract more meaningful predictors from the data, resesearchers [^1] went through and performed *feature extraction*, collapsing those 20255 dimensions into 16, each of which is a summary statistic calculated on the image. They are as follows:
+Our data set consists of a catalog of 20,000 images of letters. Initially, the each image was made up of 45 x 45 pixels, where each was characterized as either "on" or "off" (black or white). In order to extract more meaningful predictors from the data, resesearchers [^1] went through and performed *feature extraction*, collapsing those 2025 dimensions into 16, each of which is a summary statistic calculated on the image. They are as follows:
 
 1. The horizontal position, counting pixels from the left edge of the image, of the center of the smallest rectangular box that can be drawn with all "on" pixels inside the box.
 2. The vertical position, counting pixels from the bottom, of the above box.
@@ -73,6 +73,6 @@ b. Are there any letter pairs that became particularly easier/more difficult to 
 
 ### Communities and Crime
 
-Return to the Communities and Crime data set. In the last lab you added bagged trees and random forests to your model portfolio in trying to predict the crime level. Constructed model based on a boosted tree with parameters of your choosing. How does the test MSE compare to your existing models?
+Return to the Communities and Crime data set. In the last lab you added bagged trees and random forests to your model portfolio in trying to predict the crime level. Construct a model based on a boosted tree with parameters of your choosing. How does the test MSE compare to your existing models?
 
 [^1]: P. W. Frey and D. J. Slate. "Letter Recognition Using Holland-style Adaptive Classifiers". (Machine Learning Vol 6 #2 March 91) 
