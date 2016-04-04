@@ -10,6 +10,10 @@ library(knitr)
 opts_chunk$set(warning = FALSE, message = FALSE)
 ```
 
+## {.vcenter .flexbox}
+
+<img src="../figs/ella-reading.JPG" height = 550>
+
 
 ## {.vcenter .flexbox}
 
@@ -63,8 +67,8 @@ head(experts)
 
 ## Learning structure{.build} 
 - How do we visualize this data set?
-$$ {p \choose 2} = 55 \textrm{ possible scatterplots}$$ 
 - Representing *all* of the structure in the data requires $p = 11$ dimensions.
+$$ {p \choose 2} = 55 \textrm{ possible scatterplots}$$ 
 - Can we represent *most* of the structure using fewer dimensions?
 
 
@@ -113,11 +117,81 @@ $$\textrm{max} \left(\frac{1}{n} \sum_{i = 1}^n z_{i1}^2 \right) \textrm{ subjec
 
 where each $z_{i1} = \sum_{j = 1}^p \phi_{j1}x_{ij}$.
 
-Can be solved via an eigen decomposition (loadings = )
+Can be solved via an eigen decomposition ($z_i$: eigenvectors of the covariance matrix of $X$).
+
+## Interpretation
+
+The weights corresponding to a PC, $\phi_{j1}$, are called the *loadings*.
+
+#### What does PC1 represent?
+```{r echo = FALSE}
+pca1$rotation[, 1]
+```
+
+Bright vs Dark?
+
+## Interpretation
+
+#### What does PC2 represent?
+```{r echo = FALSE}
+pca1$rotation[, 2]
+```
+
+Mellow vs piquant?
+
+## Biplot
+
+```{r echo = FALSE}
+biplot(pca1)
+```
+
+
+## Ex. More Crime {.build}
+
+This data set contains statistics, in arrests per 100,000 residents for assault, murder, and rape in each of the 50 US states in 1973. Also given is the percent of the population living in urban areas.
+
+```{r}
+head(USArrests)
+```
+
+
+## PCA {.build}
+
+```{r}
+pca1 <- prcomp(USArrests, scale = TRUE)
+names(pca1)
+```
+
+- `rotation` holds the matrix of loadings; the $\phi$'s.
+- `x` holds the scores for the principle components; the $z_{ij}$.
 
 ##
 
-```{r echo = FALSE, fig.height=6, fig.width = 6, fig.align='center'}
+```{r echo = FALSE, fig.height=5, fig.width = 5, fig.align='center'}
+d <- as.data.frame(pca1$x)
+d$state <- row.names(d)
+p1 <- ggplot(d, aes(x = PC1, y = PC2)) +
+  geom_point() +
+  geom_text(aes(label = state), position = position_nudge(y = -0.1))
+p1
+```
+
+
+## Interpretation {.build}
+
+```{r}
+pca1$rotation
+```
+
+- PC1: crime
+- PC2: urbanization
+
+
+## Biplot
+
+```{r}
 biplot(pca1)
 ```
+
+
 
