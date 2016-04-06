@@ -175,7 +175,7 @@ train &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="
 </div>
 <div id="assessing-predictions" class="section level4">
 <h4>Assessing predictions</h4>
-<p>Now use this boosted model to predict the classes of the images in the training data set. Use the same number of trees and be sure to add the argument <code>type = &quot;response&quot;</code>. The output of this will be a 5000 X 26 X 1 array: for each image you’ll have a predicted probability that it is from each of the 26 classes. To extract the vector of length 5000 of each final predicted class, you can use the following function.</p>
+<p>Now use this boosted model to predict the classes of the images in the test data set. Use the same number of trees and be sure to add the argument <code>type = &quot;response&quot;</code>. The output of this will be a 5000 X 26 X 1 array: for each image you’ll have a predicted probability that it is from each of the 26 classes. To extract the vector of length 5000 of each final predicted class, you can use the following function.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">predicted &lt;-<span class="st"> </span>LETTERS[<span class="kw">apply</span>(yhat, <span class="dv">1</span>, which.max)]</code></pre></div>
 <p>Where <code>yhat</code> is the output of the <code>predict()</code> function.</p>
 <ol style="list-style-type: lower-alpha">

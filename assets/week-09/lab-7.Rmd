@@ -48,7 +48,7 @@ Contruct a boosted tree to predict the class of the training images (the letters
 
 #### Assessing predictions
 
-Now use this boosted model to predict the classes of the images in the training data set. Use the same number of trees and be sure to add the argument `type = "response"`. The output of this will be a 5000 X 26 X 1 array: for each image you'll have a predicted probability that it is from each of the 26 classes. To extract the vector of length 5000 of each final predicted class, you can use the following function.
+Now use this boosted model to predict the classes of the images in the test data set. Use the same number of trees and be sure to add the argument `type = "response"`. The output of this will be a 5000 X 26 X 1 array: for each image you'll have a predicted probability that it is from each of the 26 classes. To extract the vector of length 5000 of each final predicted class, you can use the following function.
 
 ```{r eval = FALSE}
 predicted <- LETTERS[apply(yhat, 1, which.max)]
