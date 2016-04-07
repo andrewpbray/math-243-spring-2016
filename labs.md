@@ -29,4 +29,4 @@ RMarkdown document. You should complete work on your lab by **Tuesday** at 11:59
 
 6. <a href = "{{ site.baseurl }}/assets/week-09/lab-6.html" target = "_blank">Trees</a> ([invite](https://classroom.github.com/assignment-invitations/3266aa271c670745093e7904285309ca))
 
-7. <a href = "{{ site.baseurl }}/assets/week-09/lab-7.html" target = "_blank">Boosting</a> ([invite](https://classroom.github.com/assignment-invitations/0ea2249ecc5f06fc69fe1b095188a6db))
+7. <a href = "{{ site.baseurl }}/assets/week-09/lab-7.html" target = "_blank">Boosting</a> ([invite](https://classroom.github.com/assignment-invitations/0ea2249ecc5f06fc69fe1b095188a6db))([key]({{ site.baseurl }}/assets/week-09/lab-7-key.html))
