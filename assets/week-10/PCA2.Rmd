@@ -1,0 +1,235 @@
+---
+title: "Principle Component Analysis II"
+output:
+  ioslides_presentation:
+    incremental: true
+---
+
+```{r echo = FALSE, warning=FALSE, message=FALSE}
+library(knitr)
+opts_chunk$set(warning = FALSE, message = FALSE)
+```
+
+
+## Ex. More Crime {.build}
+
+This data set contains statistics, in arrests per 100,000 residents for assault, murder, and rape in each of the 50 US states in 1973. Also given is the percent of the population living in urban areas.
+
+```{r}
+head(USArrests)
+```
+
+
+## PCA {.build}
+
+```{r}
+pca1 <- prcomp(USArrests, scale = TRUE)
+names(pca1)
+```
+
+- `rotation` holds the matrix of loadings; the $\phi$'s.
+- `x` holds the scores for the principle components; the $z_{ij}$.
+
+## Interpretation {.build}
+
+```{r}
+pca1$rotation
+```
+
+- PC1: crime
+- PC2: urbanization
+
+##
+
+```{r echo = FALSE, fig.height=5, fig.width = 5, fig.align='center'}
+library(ggplot2)
+d <- as.data.frame(pca1$x)
+d$state <- row.names(d)
+p1 <- ggplot(d, aes(x = PC1, y = PC2)) +
+  geom_point() +
+  geom_text(aes(label = state), position = position_nudge(y = -0.1))
+p1
+```
+
+
+## Biplot
+
+```{r echo = FALSE}
+biplot(pca1)
+```
+
+
+## Interpretation {.build}
+
+```{r}
+pca1$rotation
+names(pca1)
+pca1$sdev
+```
+
+## Constructing a scree plot {.build}
+
+Used to visualize the proportion of variance explained (PVE) by each PC.
+
+```{r eval = FALSE}
+d <- data.frame(PC = 1:4,
+                PVE = pca1$sdev^2 / sum(pca1$sdev^2))
+ggplot(d, aes(x = PC, y = PVE)) +
+  geom_line() + 
+  geom_point()
+```
+
+## Scree plot
+
+```{r echo = FALSE}
+d <- data.frame(PC = 1:4,
+                PVE = pca1$sdev^2 / sum(pca1$sdev^2))
+ggplot(d, aes(x = PC, y = PVE)) +
+  geom_line() + 
+  geom_point()
+```
+
+## How many PCs? {.build}
+
+- 1st PC: 62% PVE
+- 1st + 2nd PC: 62 + 25 = 87% PVE
+
+Usually most of the structure is in the first several principal components, but results may vary!
+
+*Rule of thumb*: look for the elbow in the scree plot.
+
+
+#
+
+## Principle Component Analysis (PCA) {.build}
+
+Produces a low-dimensional representation of a dataset. It finds a sequence of linear combinations of the variables that have maximal variance and are mutually uncorrelated.
+
+Used to:
+
+- Visualize structure in data
+- Learn about latent meta-variables
+- Produce imputs for subsequent supervised learning
+
+
+## Handwritten Letters {.build}
+
+```{r echo = FALSE, eval = FALSE}
+d <- read.delim("../data/handwritten-raw.txt", header = FALSE)
+library(dplyr)
+d2 <- d %>%
+  select(-V1, -V3, -V4, -V5, -V6, -V135)
+ind <- c(1:8,
+         1:8 + 16,
+         1:8 + 32,
+         1:8 + 48,
+         1:8 + 64,
+         1:8 + 80,
+         1:8 + 96,
+         1:8 + 112) + 1
+d4 <- d2[, c(1, ind)]
+names(d4)[1] <- "letter" 
+
+write.csv(d4, file = "../data/handwritten.csv", row.names = FALSE)
+```
+
+<img src="../figs/some-letters.png" width = 500>
+
+How much information is encoded in a 8 x 8 image of a handwritten letters?
+
+```{r}
+d <- read.csv("../data/handwritten.csv")
+dim(d)
+```
+
+
+
+##
+
+```{r echo = FALSE, fig.width = 5, fig.height = 5}
+plot_letter <- function(x) {
+  a <- as.numeric(x[, -1])
+  m <- matrix(a, nrow = 8, byrow = TRUE)
+  m <- t(apply(m, 2, rev)) # rotate matrix
+  image(m, axes = FALSE, col = rev(grey(seq(0, 1, length = 256))))
+  box()
+}
+i <- 40
+plot_letter(d[i, ])
+# d$letter[i]
+```
+
+
+
+
+
+## PC 1 {.build}
+
+
+## Dimension Reduction {.build .flexbox .vcenter}
+
+Reducing from $p = 3$ to 2 principal components.
+
+<img src="../figs/pca-3-2.png" height = 300>
+
+## {.vcenter .flexbox}
+
+
+
+## 
+
+```{r eval = FALSE}
+plot_letter <- function(x) {
+  a <- as.numeric(x[ , -1])
+  m <- matrix(a, nrow = 16, byrow = TRUE)
+  m <- t(apply(m, 2, rev)) # rotate matrix
+  image(m, axes = FALSE, col = rev(grey(seq(0, 1, length = 256))))
+  box()
+}
+
+i <- 72
+plot_letter(d2[i, ])
+d2$V2[i]
+
+plot_letter <- function(x) {
+  a <- as.numeric(x[, -1])
+  m <- matrix(a, nrow = 8, byrow = TRUE)
+  m <- t(apply(m, 2, rev)) # rotate matrix
+  image(m, axes = FALSE, col = rev(grey(seq(0, 1, length = 256))))
+  box()
+}
+
+i <- 67
+plot_letter(d4[i, ])
+d2$V2[i]
+```
+
+
+```{r eval = FALSE}
+
+df_p <- d2 %>%
+  filter(V2 == "h")
+p_mean <- colSums(df_p[, 7:135])/nrow(df_p)
+
+m <- matrix(p_mean, nrow = 16, byrow = FALSE)
+m <- t(apply(m, 1, rev))
+m <- m[1:8, ]
+image(m, axes = FALSE, col = rev(grey(seq(0, 1, length = 256))), box = "o")
+box()
+```
+
+##
+
+```{r eval = FALSE}
+pca1 <- prcomp(df_p[, -1])
+m <- matrix(pca1$rotation[, 1], nrow = 16, byrow = FALSE)
+m <- t(apply(m, 1, rev))
+image(m, axes = FALSE, col = rev(grey(seq(0, 1, length = 256))), box = TRUE)
+box()
+
+  m <- matrix(pca1$rotation[, 1], nrow = 16, byrow = TRUE)
+  m <- t(apply(m, 2, rev)) # rotate matrix
+  image(m, axes = FALSE, col = rev(grey(seq(0, 1, length = 256))))
+  box()
+```
+
