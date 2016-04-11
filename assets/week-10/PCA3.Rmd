@@ -1,0 +1,219 @@
+---
+title: "Principle Component Analysis III"
+output:
+  ioslides_presentation:
+    incremental: true
+---
+
+```{r echo = FALSE, warning=FALSE, message=FALSE}
+library(knitr)
+opts_chunk$set(warning = FALSE, message = FALSE)
+```
+
+## Handwritten Letters {.build}
+
+```{r echo = FALSE, fig.width = 5, fig.height = 5}
+d <- read.csv("../data/handwritten.csv")
+
+plot_letter <- function(x, hasletter = TRUE) {
+  if(hasletter) {
+    a <- as.numeric(x[, -1])
+  }else{a <- as.numeric(x)}
+  m <- matrix(a, nrow = 8, byrow = TRUE)
+  m <- t(apply(m, 2, rev)) # rotate matrix
+  par(mar = rep(0, 4))
+  image(m, axes = FALSE, col = rev(grey(seq(0, 1, length = 256))))
+  box()
+}
+```
+
+```{r fig.width=4, fig.align='center'}
+g_data <- d[d$letter == "g", ]
+plot_letter(g_data[19, ])
+```
+
+## Mean letter
+
+```{r fig.width=4, fig.align='center'}
+g_mean <- colSums(g_data[, -1])/nrow(g_data)
+plot_letter(g_mean, hasletter = FALSE)
+```
+
+
+## Dimension reduction
+
+Can we capture most of the structure in a smaller number of dimensions?
+
+$$m < p ?$$
+
+
+## Plotting the PCs
+
+```{r echo = TRUE}
+pca1 <- prcomp(g_data[, -1])
+d <- as.data.frame(pca1$x)
+library(ggplot2)
+p1 <- ggplot(d, aes(x = PC1, y = PC2)) +
+  geom_point(alpha = .4)
+```
+
+
+## Plotting the PCs
+
+```{r echo = FALSE, fig.width=5, fig.align='center'}
+p1
+```
+
+
+## Scree plot {.build}
+
+Used to visualize the proportion of variance explained (PVE) by each PC.
+
+```{r echo = FALSE}
+d <- data.frame(PC = 1:20,
+                PVE = pca1$sdev[1:20]^2 / sum(pca1$sdev[1:20]^2))
+p2 <- ggplot(d, aes(x = PC, y = PVE)) +
+  geom_line() + 
+  geom_point()
+```
+
+## Scree plot
+
+```{r echo = FALSE}
+p2
+```
+
+
+## Scree plot
+
+- A good amount of the structure in the data resides in the first 4 PCs (PVE: `r sum(d$PVE[1:4])`)
+- How well can 
+
+
+##
+
+```{r cache = TRUE}
+grid_points <- as.matrix(expand.grid(seq(-1.5, 1.5, length.out = 5), seq(-1.5, 1.5, length.out = 5)))
+pc_points <- pca1$x[, 1:2]
+
+nearest_ind <- rep(NA, nrow(grid_points))
+for(i in 1:nrow(grid_points)) {
+  gp <- matrix(rep(grid_points[i, ], nrow(pc_points)), ncol = 2, byrow = TRUE)
+  nearest_ind[i] <- which.min(rowSums((pc_points - gp)^2))
+}
+
+nearest_grid <- data.frame(pc_points[nearest_ind, ])
+grid_points <- data.frame(grid_points)
+names(grid_points) <- c("PC1", "PC2")
+
+p1 + 
+  geom_point(data = grid_points, aes(x = PC1, y = PC2), col = "red") +
+  geom_point(data = nearest_grid, aes(x = PC1, y = PC2), col = "blue")
+```
+
+```{r}
+par(mfrow = c(5, 5))
+for(i in 1:length(nearest_ind)) {
+  plot_letter(g_data[i, ])
+}
+```
+
+
+
+## Image reconstruction
+
+```{r echo = FALSE}
+phi_1 <- pca1$rotation[, 1]
+phi_2 <- pca1$rotation[, 2]
+length(phi_1)
+plot_letter(abs(phi_1), hasletter = FALSE)
+plot_letter(abs(phi_2), hasletter = FALSE)
+```
+
+## 
+```{r echo = FALSE}
+i <- 307
+phi_1 <- pca1$rotation[, 1]
+phi_2 <- pca1$rotation[, 2]
+z_1 <- pca1$x[i, 1]
+z_2 <- pca1$x[i, 2]
+x_reconstruct <- g_mean + phi_1*z_1 + phi_2*z_2
+plot_letter(x_reconstruct, hasletter = FALSE)
+```
+
+
+
+
+
+
+
+## PC 1 {.build}
+
+
+## Dimension Reduction {.build .flexbox .vcenter}
+
+Reducing from $p = 3$ to 2 principal components.
+
+<img src="../figs/pca-3-2.png" height = 300>
+
+## {.vcenter .flexbox}
+
+
+
+## 
+
+```{r eval = FALSE}
+plot_letter <- function(x) {
+  a <- as.numeric(x[ , -1])
+  m <- matrix(a, nrow = 16, byrow = TRUE)
+  m <- t(apply(m, 2, rev)) # rotate matrix
+  image(m, axes = FALSE, col = rev(grey(seq(0, 1, length = 256))))
+  box()
+}
+
+i <- 72
+plot_letter(d2[i, ])
+d2$V2[i]
+
+plot_letter <- function(x) {
+  a <- as.numeric(x[, -1])
+  m <- matrix(a, nrow = 8, byrow = TRUE)
+  m <- t(apply(m, 2, rev)) # rotate matrix
+  image(m, axes = FALSE, col = rev(grey(seq(0, 1, length = 256))))
+  box()
+}
+
+i <- 67
+plot_letter(d4[i, ])
+d2$V2[i]
+```
+
+
+```{r eval = FALSE}
+
+df_p <- d2 %>%
+  filter(V2 == "h")
+p_mean <- colSums(df_p[, 7:135])/nrow(df_p)
+
+m <- matrix(p_mean, nrow = 16, byrow = FALSE)
+m <- t(apply(m, 1, rev))
+m <- m[1:8, ]
+image(m, axes = FALSE, col = rev(grey(seq(0, 1, length = 256))), box = "o")
+box()
+```
+
+##
+
+```{r eval = FALSE}
+pca1 <- prcomp(df_p[, -1])
+m <- matrix(pca1$rotation[, 1], nrow = 16, byrow = FALSE)
+m <- t(apply(m, 1, rev))
+image(m, axes = FALSE, col = rev(grey(seq(0, 1, length = 256))), box = TRUE)
+box()
+
+  m <- matrix(pca1$rotation[, 1], nrow = 16, byrow = TRUE)
+  m <- t(apply(m, 2, rev)) # rotate matrix
+  image(m, axes = FALSE, col = rev(grey(seq(0, 1, length = 256))))
+  box()
+```
+
