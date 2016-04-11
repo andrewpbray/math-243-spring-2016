@@ -25,7 +25,7 @@ pc_grid <- function(pca, data) {
     nearest_ind[i] <- which.min(rowSums((pc_points - gp)^2))
   }
   nearest_grid <- data.frame(d[nearest_ind, ])
-  par(mfrow = c(5, 5), mar = rep(0, 4), oma = rep(0, 4))
+  par(mfrow = c(5, 5), mar = rep(0, 4))
   regrid <- c(21:25, 16:20, 11:15, 6:10, 1:5)
   for(i in regrid) {
     plot_letter(nearest_grid[i, ])
