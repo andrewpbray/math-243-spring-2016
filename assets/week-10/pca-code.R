@@ -11,3 +11,22 @@ plot_letter <- function(x, hasletter = TRUE) {
   image(m, axes = FALSE, col = rev(grey(seq(0, 1, length = 256))))
   box()
 }
+
+pc_grid <- function(pca) {
+  grid_points <- as.matrix(expand.grid(seq(-1.5, 1.5, length.out = 5), 
+                                       seq(-1.5, 1.5, length.out = 5)))
+  pc_points <- pca$x[, 1:2]
+  nearest_ind <- rep(NA, nrow(grid_points))
+  for(i in 1:nrow(grid_points)) {
+    gp <- matrix(rep(grid_points[i, ], nrow(pc_points)), 
+                 ncol = 2, byrow = TRUE)
+    nearest_ind[i] <- which.min(rowSums((pc_points - gp)^2))
+  }
+  
+  nearest_grid <- data.frame(pc_points[nearest_ind, ])
+  par(mfrow = c(5, 5), oma = rep(0, 4))
+  regrid <- c(21:25, 16:20, 11:15, 6:10, 1:5)
+  for(i in regrid) {
+    plot_letter(g_data[i, ])
+  }
+}
