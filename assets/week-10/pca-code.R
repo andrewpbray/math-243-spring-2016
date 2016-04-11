@@ -1,5 +1,3 @@
-# Slides from last time: http://andrewpbray.github.io/math-243/assets/week-10/PCA.Rmd
-
 d <- read.csv("http://andrewpbray.github.io/math-243/assets/data/handwritten.csv")
 
 plot_letter <- function(x, hasletter = TRUE) {
@@ -23,7 +21,6 @@ pc_grid <- function(pca, data) {
                  ncol = 2, byrow = TRUE)
     nearest_ind[i] <- which.min(rowSums((pc_points - gp)^2))
   }
-  
   nearest_grid <- data.frame(d[nearest_ind, ])
   par(mfrow = c(5, 5), mar = rep(0, 4))
   regrid <- c(21:25, 16:20, 11:15, 6:10, 1:5)
