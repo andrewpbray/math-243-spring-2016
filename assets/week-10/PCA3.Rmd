@@ -84,15 +84,15 @@ p2
 ```
 
 
-## Scree plot
+## Scree plot {.build}
+A good amount of the structure in the data resides in the first 4 PCs (PVE: `r sum(d$PVE[1:4])`)
 
-- A good amount of the structure in the data resides in the first 4 PCs (PVE: `r sum(d$PVE[1:4])`)
-- How well can 
+But what do these PCs actually mean?
 
 
 ##
 
-```{r cache = TRUE}
+```{r cache = TRUE, echo = FALSE, fig.width=5, fig.align='center'}
 grid_points <- as.matrix(expand.grid(seq(-1.5, 1.5, length.out = 5), seq(-1.5, 1.5, length.out = 5)))
 pc_points <- pca1$x[, 1:2]
 
@@ -107,113 +107,117 @@ grid_points <- data.frame(grid_points)
 names(grid_points) <- c("PC1", "PC2")
 
 p1 + 
-  geom_point(data = grid_points, aes(x = PC1, y = PC2), col = "red") +
   geom_point(data = nearest_grid, aes(x = PC1, y = PC2), col = "blue")
 ```
 
-```{r}
-par(mfrow = c(5, 5))
-for(i in 1:length(nearest_ind)) {
+## 
+
+```{r, echo = FALSE, fig.width=5, fig.align='center', warning=FALSE}
+par(mfrow = c(5, 5), mar = rep(0, 4))
+regrid <- c(21:25, 16:20, 11:15, 6:10, 1:5)
+for(i in regrid) {
   plot_letter(g_data[i, ])
 }
 ```
 
 
+## What do the PCs mean? {.build}
 
-## Image reconstruction
+Difficult to tell due to
 
-```{r echo = FALSE}
-phi_1 <- pca1$rotation[, 1]
-phi_2 <- pca1$rotation[, 2]
-length(phi_1)
-plot_letter(abs(phi_1), hasletter = FALSE)
-plot_letter(abs(phi_2), hasletter = FALSE)
-```
+- Low resolution
+- Lots of information to synthesize
 
-## 
-```{r echo = FALSE}
-i <- 307
-phi_1 <- pca1$rotation[, 1]
-phi_2 <- pca1$rotation[, 2]
-z_1 <- pca1$x[i, 1]
-z_2 <- pca1$x[i, 2]
-x_reconstruct <- g_mean + phi_1*z_1 + phi_2*z_2
-plot_letter(x_reconstruct, hasletter = FALSE)
-```
+But there is another way to learn about these first two PCs...
 
+#
 
+## Practice
 
-
-
-
-
-## PC 1 {.build}
-
-
-## Dimension Reduction {.build .flexbox .vcenter}
-
-Reducing from $p = 3$ to 2 principal components.
-
-<img src="../figs/pca-3-2.png" height = 300>
-
-## {.vcenter .flexbox}
-
-
+1. Extract the loadings (`rotation`) from your PCA object and used `plot_letter()` to plot your first several PCs. What variation they seem to be capturing?
+2. Generate a 5x5 plot of the images of letters sampled from a regular grid across the first two PCs (use `pc_grid()` in the updated code file from last class.) Do these conform with the direct images of the loadings?
 
 ## 
 
-```{r eval = FALSE}
-plot_letter <- function(x) {
-  a <- as.numeric(x[ , -1])
-  m <- matrix(a, nrow = 16, byrow = TRUE)
-  m <- t(apply(m, 2, rev)) # rotate matrix
-  image(m, axes = FALSE, col = rev(grey(seq(0, 1, length = 256))))
-  box()
+```{r echo = FALSE}
+pc_grid <- function(pca) {
+  grid_points <- as.matrix(expand.grid(seq(-1.5, 1.5, length.out = 5), 
+                                       seq(-1.5, 1.5, length.out = 5)))
+  pc_points <- pca$x[, 1:2]
+  nearest_ind <- rep(NA, nrow(grid_points))
+  for(i in 1:nrow(grid_points)) {
+    gp <- matrix(rep(grid_points[i, ], nrow(pc_points)), 
+                 ncol = 2, byrow = TRUE)
+    nearest_ind[i] <- which.min(rowSums((pc_points - gp)^2))
+  }
+  
+  nearest_grid <- data.frame(pc_points[nearest_ind, ])
+  par(mfrow = c(5, 5), oma = rep(0, 4))
+  regrid <- c(21:25, 16:20, 11:15, 6:10, 1:5)
+  for(i in regrid) {
+    plot_letter(g_data[i, ])
+  }
 }
 
-i <- 72
-plot_letter(d2[i, ])
-d2$V2[i]
-
-plot_letter <- function(x) {
-  a <- as.numeric(x[, -1])
-  m <- matrix(a, nrow = 8, byrow = TRUE)
-  m <- t(apply(m, 2, rev)) # rotate matrix
-  image(m, axes = FALSE, col = rev(grey(seq(0, 1, length = 256))))
-  box()
-}
-
-i <- 67
-plot_letter(d4[i, ])
-d2$V2[i]
 ```
 
+First, reset graphical parameters.
 
-```{r eval = FALSE}
-
-df_p <- d2 %>%
-  filter(V2 == "h")
-p_mean <- colSums(df_p[, 7:135])/nrow(df_p)
-
-m <- matrix(p_mean, nrow = 16, byrow = FALSE)
-m <- t(apply(m, 1, rev))
-m <- m[1:8, ]
-image(m, axes = FALSE, col = rev(grey(seq(0, 1, length = 256))), box = "o")
-box()
+```{r fig.width=4, fig.align='center'}
+dev.off()
 ```
 
 ##
 
-```{r eval = FALSE}
-pca1 <- prcomp(df_p[, -1])
-m <- matrix(pca1$rotation[, 1], nrow = 16, byrow = FALSE)
-m <- t(apply(m, 1, rev))
-image(m, axes = FALSE, col = rev(grey(seq(0, 1, length = 256))), box = TRUE)
-box()
-
-  m <- matrix(pca1$rotation[, 1], nrow = 16, byrow = TRUE)
-  m <- t(apply(m, 2, rev)) # rotate matrix
-  image(m, axes = FALSE, col = rev(grey(seq(0, 1, length = 256))))
-  box()
+```{r fig.width=5, fig.align='center'}
+plot_letter(pca1$rotation[, 1], hasletter = FALSE)
 ```
+
+## {.build}
+
+```{r fig.width=5, fig.align='center'}
+plot_letter(pca1$rotation[, 2], hasletter = FALSE)
+```
+
+## {.build}
+
+```{r fig.width=5, fig.align='center'}
+pc_grid(pca1)
+```
+
+#
+
+## Image reconstruction
+
+Use the first two principle components to reconstruct (and visualize) the first two letters in your data set. For each letter, plot the true image and the reconstructed image on the sampe plot. How much information was lost?
+
+## 
+
+```{r}
+phi <- pca1$rotation
+z <- pca1$x
+x_star1 <- g_mean + phi[, 1] * z[1, 1] + phi[, 2] * z[1, 2]
+x_star2 <- g_mean + phi[, 1] * z[2, 1] + phi[, 2] * z[2, 2]
+```
+
+##
+```{r eval = FALSE}
+par(mfrow = c(2, 2))
+plot_letter(x_star1, hasletter = FALSE)
+plot_letter(g_data[1,], hasletter = TRUE)
+plot_letter(x_star2, hasletter = FALSE)
+plot_letter(g_data[2,], hasletter = TRUE)
+```
+
+##
+```{r echo = FALSE, fig.width=6, fig.height=6, fig.align='center'}
+par(mfrow = c(2, 2))
+plot_letter(x_star1, hasletter = FALSE)
+plot_letter(g_data[1,], hasletter = TRUE)
+plot_letter(x_star2, hasletter = FALSE)
+plot_letter(g_data[2,], hasletter = TRUE)
+```
+
+
+
 
