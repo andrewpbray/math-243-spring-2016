@@ -137,99 +137,71 @@ write.csv(d4, file = "../data/handwritten.csv", row.names = FALSE)
 
 How much information is encoded in a 8 x 8 image of a handwritten letters?
 
-```{r}
-d <- read.csv("../data/handwritten.csv")
-dim(d)
-```
+## Practice {.build}
 
+Find the code to download the handwritten data set on the website under Week 10.
 
+1. What do the columns and rows appear to represent in this dataset?
+2. Select a letter of the alphabet and create a new dataset that includes only the images of that letter.
+3. Visualize a few of those images using `plot_letter()` function.
+4. Compute the *mean* image for that letter and visualize it.
 
 ##
 
 ```{r echo = FALSE, fig.width = 5, fig.height = 5}
-plot_letter <- function(x) {
-  a <- as.numeric(x[, -1])
-  m <- matrix(a, nrow = 8, byrow = TRUE)
-  m <- t(apply(m, 2, rev)) # rotate matrix
-  image(m, axes = FALSE, col = rev(grey(seq(0, 1, length = 256))))
-  box()
-}
-i <- 40
-plot_letter(d[i, ])
-# d$letter[i]
-```
+d <- read.csv("../data/handwritten.csv")
 
+library(dplyr)
+g_data <- d %>%
+  filter(letter == "g")
 
-
-
-
-## PC 1 {.build}
-
-
-## Dimension Reduction {.build .flexbox .vcenter}
-
-Reducing from $p = 3$ to 2 principal components.
-
-<img src="../figs/pca-3-2.png" height = 300>
-
-## {.vcenter .flexbox}
-
-
-
-## 
-
-```{r eval = FALSE}
-plot_letter <- function(x) {
-  a <- as.numeric(x[ , -1])
-  m <- matrix(a, nrow = 16, byrow = TRUE)
-  m <- t(apply(m, 2, rev)) # rotate matrix
-  image(m, axes = FALSE, col = rev(grey(seq(0, 1, length = 256))))
-  box()
-}
-
-i <- 72
-plot_letter(d2[i, ])
-d2$V2[i]
-
-plot_letter <- function(x) {
-  a <- as.numeric(x[, -1])
+plot_letter <- function(x, hasletter = TRUE) {
+  if(hasletter) {
+    a <- as.numeric(x[, -1])
+  }else{a <- as.numeric(x)}
   m <- matrix(a, nrow = 8, byrow = TRUE)
   m <- t(apply(m, 2, rev)) # rotate matrix
   image(m, axes = FALSE, col = rev(grey(seq(0, 1, length = 256))))
   box()
 }
 
-i <- 67
-plot_letter(d4[i, ])
-d2$V2[i]
+plot_letter(g_data[19, ])
+
+g_mean <- colSums(g_data[, -1])/nrow(g_data)
+plot_letter(g_mean, hasletter = FALSE)
 ```
 
 
-```{r eval = FALSE}
+## Dimension reduction
 
-df_p <- d2 %>%
-  filter(V2 == "h")
-p_mean <- colSums(df_p[, 7:135])/nrow(df_p)
+Can we capture most of the structure in a smaller number of dimensions?
 
-m <- matrix(p_mean, nrow = 16, byrow = FALSE)
-m <- t(apply(m, 1, rev))
-m <- m[1:8, ]
-image(m, axes = FALSE, col = rev(grey(seq(0, 1, length = 256))), box = "o")
-box()
-```
+$$m < p ?$$
+
+1. Perform PCA on your data set using the `prcomp()` function (detailed in the 
+slides from last time).
+2. Construct a scree plot showing the PVE for the first 20 PCs.
+
 
 ##
 
-```{r eval = FALSE}
-pca1 <- prcomp(df_p[, -1])
-m <- matrix(pca1$rotation[, 1], nrow = 16, byrow = FALSE)
-m <- t(apply(m, 1, rev))
-image(m, axes = FALSE, col = rev(grey(seq(0, 1, length = 256))), box = TRUE)
-box()
-
-  m <- matrix(pca1$rotation[, 1], nrow = 16, byrow = TRUE)
-  m <- t(apply(m, 2, rev)) # rotate matrix
-  image(m, axes = FALSE, col = rev(grey(seq(0, 1, length = 256))))
-  box()
+```{r echo = FALSE}
+pca1 <- prcomp(g_data[, -1])
+d <- as.data.frame(pca1$x)
+p1 <- ggplot(d, aes(x = PC1, y = PC2)) +
+  geom_point()
+p1
 ```
+
+
+## 
+```{r echo = FALSE}
+d <- data.frame(PC = 1:20,
+                PVE = pca1$sdev[1:20]^2 / sum(pca1$sdev[1:20]^2))
+ggplot(d, aes(x = PC, y = PVE)) +
+  geom_line() + 
+  geom_point()
+```
+
+
 
