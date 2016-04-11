@@ -13,18 +13,7 @@ opts_chunk$set(warning = FALSE, message = FALSE)
 ## Handwritten Letters {.build}
 
 ```{r echo = FALSE, fig.width = 5, fig.height = 5}
-d <- read.csv("../data/handwritten.csv")
-
-plot_letter <- function(x, hasletter = TRUE) {
-  if(hasletter) {
-    a <- as.numeric(x[, -1])
-  }else{a <- as.numeric(x)}
-  m <- matrix(a, nrow = 8, byrow = TRUE)
-  m <- t(apply(m, 2, rev)) # rotate matrix
-  par(mar = rep(0, 4))
-  image(m, axes = FALSE, col = rev(grey(seq(0, 1, length = 256))))
-  box()
-}
+source("https://raw.githubusercontent.com/andrewpbray/math-243/gh-pages/assets/week-10/pca-code.R")
 ```
 
 ```{r fig.width=4, fig.align='center'}
@@ -113,11 +102,7 @@ p1 +
 ## 
 
 ```{r, echo = FALSE, fig.width=5, fig.align='center', warning=FALSE}
-par(mfrow = c(5, 5), mar = rep(0, 4))
-regrid <- c(21:25, 16:20, 11:15, 6:10, 1:5)
-for(i in regrid) {
-  plot_letter(g_data[i, ])
-}
+pc_grid(pca1, g_data)
 ```
 
 
@@ -138,28 +123,6 @@ But there is another way to learn about these first two PCs...
 2. Generate a 5x5 plot of the images of letters sampled from a regular grid across the first two PCs (use `pc_grid()` in the updated code file from last class.) Do these conform with the direct images of the loadings?
 
 ## 
-
-```{r echo = FALSE}
-pc_grid <- function(pca) {
-  grid_points <- as.matrix(expand.grid(seq(-1.5, 1.5, length.out = 5), 
-                                       seq(-1.5, 1.5, length.out = 5)))
-  pc_points <- pca$x[, 1:2]
-  nearest_ind <- rep(NA, nrow(grid_points))
-  for(i in 1:nrow(grid_points)) {
-    gp <- matrix(rep(grid_points[i, ], nrow(pc_points)), 
-                 ncol = 2, byrow = TRUE)
-    nearest_ind[i] <- which.min(rowSums((pc_points - gp)^2))
-  }
-  
-  nearest_grid <- data.frame(pc_points[nearest_ind, ])
-  par(mfrow = c(5, 5), oma = rep(0, 4))
-  regrid <- c(21:25, 16:20, 11:15, 6:10, 1:5)
-  for(i in regrid) {
-    plot_letter(g_data[i, ])
-  }
-}
-
-```
 
 First, reset graphical parameters.
 
@@ -182,7 +145,7 @@ plot_letter(pca1$rotation[, 2], hasletter = FALSE)
 ## {.build}
 
 ```{r fig.width=5, fig.align='center'}
-pc_grid(pca1)
+pc_grid(pca1, g_data)
 ```
 
 #
