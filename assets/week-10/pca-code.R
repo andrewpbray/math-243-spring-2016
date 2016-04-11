@@ -1,13 +1,16 @@
 d <- read.csv("http://andrewpbray.github.io/math-243/assets/data/handwritten.csv")
 
 plot_letter <- function(x, hasletter = TRUE) {
+  op <- par()
   if(hasletter) {
     a <- as.numeric(x[, -1])
   }else{a <- as.numeric(x)}
   m <- matrix(a, nrow = 8, byrow = TRUE)
   m <- t(apply(m, 2, rev)) # rotate matrix
+  par(mar = rep(0, 4))
   image(m, axes = FALSE, col = rev(grey(seq(0, 1, length = 256))))
   box()
+  par(op)
 }
 
 pc_grid <- function(pca, data) {
