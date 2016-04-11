@@ -24,9 +24,9 @@ pc_grid <- function(pca) {
   }
   
   nearest_grid <- data.frame(pc_points[nearest_ind, ])
-  par(mfrow = c(5, 5), oma = rep(0, 4))
+  par(mfrow = c(5, 5), mar = rep(0, 4))
   regrid <- c(21:25, 16:20, 11:15, 6:10, 1:5)
   for(i in regrid) {
-    plot_letter(g_data[i, ])
+    plot_letter(nearest_grid[i, ])
   }
 }
