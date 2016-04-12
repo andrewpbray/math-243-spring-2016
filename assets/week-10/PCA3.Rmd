@@ -81,7 +81,7 @@ But what do these PCs actually mean?
 
 ##
 
-```{r cache = TRUE, echo = FALSE, fig.width=5, fig.align='center'}
+```{r echo = FALSE, fig.width=5, fig.align='center'}
 grid_points <- as.matrix(expand.grid(seq(-1.5, 1.5, length.out = 5), seq(-1.5, 1.5, length.out = 5)))
 pc_points <- pca1$x[, 1:2]
 
@@ -165,7 +165,7 @@ x_star2 <- g_mean + phi[, 1] * z[2, 1] + phi[, 2] * z[2, 2]
 
 ##
 ```{r eval = FALSE}
-par(mfrow = c(2, 2))
+par(mfrow = c(2, 2), mar = rep(0, 4))
 plot_letter(x_star1, hasletter = FALSE)
 plot_letter(g_data[1,], hasletter = TRUE)
 plot_letter(x_star2, hasletter = FALSE)
@@ -175,6 +175,7 @@ plot_letter(g_data[2,], hasletter = TRUE)
 ##
 ```{r echo = FALSE, fig.width=6, fig.height=6, fig.align='center'}
 par(mfrow = c(2, 2))
+par(mfrow = c(2, 2), mar = rep(0, 4))
 plot_letter(x_star1, hasletter = FALSE)
 plot_letter(g_data[1,], hasletter = TRUE)
 plot_letter(x_star2, hasletter = FALSE)
