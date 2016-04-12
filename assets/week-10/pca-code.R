@@ -1,7 +1,6 @@
 d <- read.csv("http://andrewpbray.github.io/math-243/assets/data/handwritten.csv")
 
 plot_letter <- function(x, hasletter = TRUE) {
-  op <- par()
   if(hasletter) {
     a <- as.numeric(x[, -1])
   }else{a <- as.numeric(x)}
@@ -10,7 +9,6 @@ plot_letter <- function(x, hasletter = TRUE) {
   par(mar = rep(0, 4))
   image(m, axes = FALSE, col = rev(grey(seq(0, 1, length = 256))))
   box()
-  par(op)
 }
 
 pc_grid <- function(pca, data) {
@@ -25,7 +23,7 @@ pc_grid <- function(pca, data) {
     nearest_ind[i] <- which.min(rowSums((pc_points - gp)^2))
   }
   nearest_grid <- data.frame(d[nearest_ind, ])
-  par(mfrow = c(5, 5), mar = rep(0, 4))
+  par(mfrow = c(5, 5))
   regrid <- c(21:25, 16:20, 11:15, 6:10, 1:5)
   for(i in regrid) {
     plot_letter(nearest_grid[i, ])
