@@ -7,7 +7,7 @@ plot_letter <- function(x, hasletter = TRUE) {
   m <- matrix(a, nrow = 8, byrow = TRUE)
   m <- t(apply(m, 2, rev)) # rotate matrix
   par(mar = rep(0, 4))
-  image(m, axes = FALSE, col = rev(grey(seq(0, 1, length = 256))))
+  image(m, axes = FALSE, col = rev(grey(seq(0, 1, length = 256)))) #this should be a divergent palette
   box()
 }
 
