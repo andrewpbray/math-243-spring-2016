@@ -1,0 +1,177 @@
+---
+title: "Clustering: choosing K"
+output:
+  ioslides_presentation:
+    incremental: true
+---
+
+```{r echo = FALSE, warning=FALSE, message=FALSE}
+library(knitr)
+opts_chunk$set(warning = FALSE, message = FALSE)
+```
+
+## {.build}
+
+```{r}
+poverty <- read.delim("https://raw.githubusercontent.com/andrewpbray/math-243/gh-pages/assets/data/poverty.txt", header = TRUE)
+km1 <- kmeans(poverty[ ,-1], 4, nstart = 20)
+library(dplyr)
+kd <- arrange(data.frame(poverty$State, "k" = km1$cluster), k)
+head(kd)
+tail(kd)
+```
+
+
+## PC representation
+
+```{r eval = FALSE}
+pca1 <- prcomp(poverty[, -1])
+d <- data.frame(PC1 = pca1$x[, 1],
+                PC2 = pca1$x[, 2],
+                cluster = as.factor(km1$cluster),
+                state = poverty$State)
+ggplot(d, aes(x = PC1, y = PC2, col = cluster)) +
+  geom_point() +
+  geom_text(aes(label = state), vjust = 2)
+```
+
+
+## K = 4
+
+```{r, echo = FALSE, fig.align='center', fig.width=8, fig.height=5}
+set.seed(40)
+km4 <- kmeans(poverty[ ,-1], 4, nstart = 20)
+pca1 <- prcomp(poverty[, -1])
+d <- data.frame(PC1 = pca1$x[, 1],
+                PC2 = pca1$x[, 2],
+                cluster = as.factor(km4$cluster),
+                state = poverty$State)
+library(ggplot2)
+
+ggplot(d, aes(x = PC1, y = PC2, col = cluster)) +
+  geom_point() +
+  geom_text(aes(label = state), vjust = 2)
+```
+
+
+## K = 3
+
+```{r, echo = FALSE, fig.align='center', fig.width=8, fig.height=5}
+set.seed(40)
+km3 <- kmeans(poverty[ ,-1], 3, nstart = 20)
+d <- data.frame(PC1 = pca1$x[, 1],
+                PC2 = pca1$x[, 2],
+                cluster = as.factor(km3$cluster),
+                state = poverty$State)
+library(ggplot2)
+
+ggplot(d, aes(x = PC1, y = PC2, col = cluster)) +
+  geom_point() +
+  geom_text(aes(label = state), vjust = 2)
+```
+
+
+## K = 2
+
+```{r, echo = FALSE, fig.align='center', fig.width=8, fig.height=5}
+set.seed(40)
+km2 <- kmeans(poverty[ ,-1], 2, nstart = 20)
+d <- data.frame(PC1 = pca1$x[, 1],
+                PC2 = pca1$x[, 2],
+                cluster = as.factor(km2$cluster),
+                state = poverty$State)
+library(ggplot2)
+
+ggplot(d, aes(x = PC1, y = PC2, col = cluster)) +
+  geom_point() +
+  geom_text(aes(label = state), vjust = 2)
+```
+
+
+## K = 1
+
+```{r, echo = FALSE, fig.align='center', fig.width=8, fig.height=5}
+set.seed(40)
+km1 <- kmeans(poverty[ ,-1], 1, nstart = 20)
+d <- data.frame(PC1 = pca1$x[, 1],
+                PC2 = pca1$x[, 2],
+                cluster = as.factor(km1$cluster),
+                state = poverty$State)
+library(ggplot2)
+
+ggplot(d, aes(x = PC1, y = PC2, col = cluster)) +
+  geom_point() +
+  geom_text(aes(label = state), vjust = 2)
+```
+
+
+## Variation with K = 1 {.build}
+
+```{r}
+names(km1)
+km1$withinss
+km1$tot.withinss
+```
+
+
+## K = 2
+
+```{r, echo = FALSE, fig.align='center', fig.width=8, fig.height=5}
+set.seed(40)
+km2 <- kmeans(poverty[ ,-1], 2, nstart = 20)
+d <- data.frame(PC1 = pca1$x[, 1],
+                PC2 = pca1$x[, 2],
+                cluster = as.factor(km2$cluster),
+                state = poverty$State)
+library(ggplot2)
+
+ggplot(d, aes(x = PC1, y = PC2, col = cluster)) +
+  geom_point() +
+  geom_text(aes(label = state), vjust = 2)
+```
+
+
+## Variation with K = 2 {.build}
+
+```{r}
+km2$withinss
+km2$tot.withinss
+km2$totss
+```
+
+
+## TWSS and K
+
+```{r echo = FALSE}
+km5 <- kmeans(poverty[ ,-1], 5, nstart = 20)
+km6 <- kmeans(poverty[ ,-1], 6, nstart = 20)
+km7 <- kmeans(poverty[ ,-1], 7, nstart = 20)
+km8 <- kmeans(poverty[ ,-1], 8, nstart = 20)
+df <- data.frame("K" = 1:8,
+                 "SS" = c(km1$tot.withinss,
+                          km2$tot.withinss,
+                          km3$tot.withinss,
+                          km4$tot.withinss,
+                          km5$tot.withinss,
+                          km6$tot.withinss,
+                          km7$tot.withinss,
+                          km8$tot.withinss))
+ggplot(df, aes(x = K, y = SS)) +
+  geom_point() +
+  geom_line()
+```
+
+
+## Selecting K {.build}
+
+- Use domain area knowledge.
+- Look for "elbow" in a scree plot.
+- Formalize "elbow" with Gap statistic (Tibshirani, 2001).
+
+The number of clusters is often ambiguous, which shouldn't be surprising in an unsupervised setting.
+
+Choice of K is choosing where on the spectrum between complete aggregation (K = 1) and no aggregation (K = n).
+
+
+
+
