@@ -36,8 +36,7 @@ component of the course and I recommend having a hardcopy on hand if possible.
 
 ### Class components
 
-This course has three components: problem sets, labs, and exams/quizzes. For details
-on the first two, see the tabs at the top of the page.
+This course has three components: problem sets, labs, and exams/quizzes/project. For details on the first two, see the tabs at the top of the page.
 
 
 #### Exams
@@ -54,7 +53,21 @@ Friday, February 26 2016
 Friday, April 8th (takehome)
 
 **Final**  
-Thursday, May 12, 2016, 1 PM - 4 PM
+Takehome during finals week
+
+#### Project
+
+Your goal is to find a data set of interest to you and develop insight into it by applying the principles and techniques of statistical learning. This is a group project (3 students in a group) that has two deliverables: a single Rmd research report that is submitted via GitHub and a 10-15 minute presentation.
+
+**Research Report**
+April 29th 1 pm
+
+**Presentations**
+April 27 and 29th in class
+
+
+
+
 
 
 ### General Timeline
