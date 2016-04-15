@@ -1,0 +1,33 @@
+---
+layout: page
+title: Problem Set 8
+permalink: /problem-sets/
+published: FALSE
+output: 
+  html_document: 
+    highlight: pygments
+    theme: spacelab
+---
+
+#### Chapter 10 Questions
+Numbers 1, 3, 5
+
+```{r eval = FALSE, echo = FALSE}
+# this was for number 10 but needs more work
+library(mvtnorm)
+set.seed(48)
+p <- 50
+n <- 60
+mu <- runif(p)
+sigma <- diag(p) * runif(p) * 3
+su <- rbind(cbind(rep(0, p-1), diag(p - 1) * runif(p-1)),
+            rep(0, p))
+sl <- t(su)
+sigma <- (sigma + su + sl) * 5
+X <- rmvnorm(n, mu, sigma)
+Y <- sample(rep(1:3, each = 20))
+X[Y == 2, ] <- X[Y == 2, ] + 1
+X[Y == 3, ] <- X[Y == 3, ] - 1
+```
+
+
