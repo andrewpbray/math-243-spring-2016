@@ -31,3 +31,96 @@ opts_chunk$set(warning = FALSE, message = FALSE)
 
 #
 
+## Example: Cancer Genomics {.build}
+
+<img src = "http://mkweb.bcgsc.ca/dev/circos//img/masthead/circos-embl-cancer-genomics-2013.png" width = 750>
+
+How do you characterize the gene expression in cancerous cells?
+
+`NCI60`: Cancer cell mircoarray data with 6,830 expression measurements on 64 cancer cell lines.
+
+
+## {.build}
+```{r}
+library(ISLR)
+NCI <- NCI60$data
+dim(NCI)
+NCI[1:3, 1:5]
+```
+
+## {.build}
+
+```{r}
+NCI_scaled <- scale(NCI)
+NCI_dist <- dist(NCI_scaled)
+dissmatrix <- as.matrix(NCI_dist)
+dissmatrix[1:5, 1:5]
+```
+
+This distance matrix can be visualized as a *heatmap*.
+
+
+## {.build}
+
+```{r fig.align='center', fig.width = 6, fig.height = 6}
+heatmap(dissmatrix, Rowv = NA, Colv = NA)
+```
+
+
+## {.build}
+
+```{r fig.align='center', fig.width = 6, fig.height = 6}
+heatmap(dissmatrix, Colv = NA)
+```
+
+
+## Dendrogram {.build}
+
+```{r, echo = FALSE, fig.width = 8, fig.align='center'}
+plot(hclust(NCI_dist), xlab = "", ylab = "", sub = "", main = "Complete Linkage", cex = .6)
+```
+
+
+## Dendrogram
+
+```{r, echo = FALSE, fig.width = 8, fig.align='center'}
+plot(hclust(NCI_dist), labels = NCI60$labs, xlab = "", ylab = "", sub = "", main = "Complete Linkage", cex = .6)
+```
+
+
+## Dendrogram
+
+```{r, echo = FALSE, fig.width = 8, fig.align='center'}
+plot(hclust(NCI_dist, method = "single"), labels = NCI60$labs, xlab = "", ylab = "", sub = "", main = "Single Linkage", cex = .6)
+```
+
+
+## Cutting the Dendro {.build}
+
+```{r}
+hc <- hclust(NCI_dist)
+hc_cut <- cutree(hc, k = 4)
+length(hc_cut)
+head(hc_cut)
+```
+
+
+## Cutting the Dendro {.build}
+
+```{r}
+table(hc_cut, NCI60$labs)
+```
+
+- Leukemia cell lines in cluster 3.
+- Breast cancer cell lines spread across 1, 2, and 4.
+
+
+## Dendrogram
+
+```{r, echo = FALSE, fig.width = 8, fig.align='center'}
+plot(hclust(NCI_dist), labels = NCI60$labs, xlab = "", ylab = "", sub = "", main = "Complete Linkage", cex = .6)
+abline(h = 139, col = "tomato")
+```
+
+
+
