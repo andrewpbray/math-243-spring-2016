@@ -101,13 +101,13 @@ head(kd)</pre>
 
 <pre class = 'prettyprint lang-r'>tail(kd)</pre>
 
-<pre >##    poverty.State k
-## 46        Oregon 4
-## 47  Pennsylvania 4
-## 48  Rhode Island 4
-## 49         Texas 4
-## 50          Utah 4
-## 51    Washington 4</pre>
+<pre >##     poverty.State k
+## 46    Mississippi 4
+## 47 North Carolina 4
+## 48       Oklahoma 4
+## 49 South Carolina 4
+## 50      Tennessee 4
+## 51       Virginia 4</pre>
 
 </article></slide><slide class=''><hgroup><h2>PC representation</h2></hgroup><article  id="pc-representation">
 
@@ -182,7 +182,9 @@ ggplot(d, aes(x = PC1, y = PC2, col = cluster)) +
 <li>Formalize &quot;elbow&quot; with Gap statistic (Tibshirani, 2001).</li>
 </ul>
 
-<p>The number of clusters is often ambiguous, which shouldn&#39;t be surprising in an unsupervised setting.</p></article></slide>
+<p>The number of clusters is often ambiguous, which shouldn&#39;t be surprising in an unsupervised setting.</p>
+
+<p>Choice of K is choosing where on the spectrum between complete aggregation (K = 1) and no aggregation (K = n).</p></article></slide>
 
 
   <slide class="backdrop"></slide>
