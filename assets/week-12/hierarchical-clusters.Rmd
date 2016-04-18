@@ -1,0 +1,33 @@
+---
+title: "Hierarchical Clustering"
+output:
+  ioslides_presentation:
+    incremental: true
+---
+
+```{r echo = FALSE, warning=FALSE, message=FALSE}
+library(knitr)
+opts_chunk$set(warning = FALSE, message = FALSE)
+```
+
+## Algorithm 10.2 {.build}
+
+1. Begin with $n$ observations and a dissimilarity matrix. Treat each observation as its own cluster.
+2. For $i = n, n - 1, \ldots, 2$:
+    - Examine all pairwise inter-cluster dissimilarities and identify the pair that are most similar. Fuse these clusters at the dendrogram height corresponding to their dissimilarity.
+    - Compute pairwise dissimilarities among remaining 1 - i clusters.
+    
+
+## Linkage types {.build}
+
+**Complete**: Maximal intercluster dissimilarity.
+
+**Single**: Minimal intercluster dissimilarity.
+
+**Average**: Mean intercluster dissimiliarity.
+
+**Centroid**: Dissimilarity between cluster centroids.
+
+
+#
+
