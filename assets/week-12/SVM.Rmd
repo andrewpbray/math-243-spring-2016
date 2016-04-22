@@ -1,0 +1,73 @@
+---
+title: "Support Vector Machines"
+output:
+  ioslides_presentation:
+    incremental: true
+---
+
+```{r echo = FALSE, warning=FALSE, message=FALSE}
+library(knitr)
+opts_chunk$set(warning = FALSE, message = FALSE)
+```
+
+## Separating Hyperplanes {.build .smaller}
+<!-- These slides make extensive use of plots from An Introduction to Statistical Learning by James et al.-->
+
+<img src = "../figs/sep-planes.png" width = 750>
+
+- If $f(X) = \beta_0 + \beta_1 X_1 + \beta_2 X_2$, then $f(X) > 0$ for points on one side of the hyperplane and $f(X) < 0$ for points on the other.
+- If you code blue points $Y = +1$ and pink points $Y = -1$, then $y_i \cdot f(x_i) > 0$ for all $i$ and you have a *separating hyperplane*.
+
+
+## Maximal Margin Classifier {.build .vcenter .flexbox .smaller}
+
+Among all separating hyperplanes, find the one that makes the biggest gap or margin between the two classes.
+
+<img src = "../figs/max-margin.png" width = 400>
+
+Each observation that anchors the margin is called a *support vector*.
+
+
+## Finding the Max. Margin {.build}
+
+A constrained optimization problem (looks similar to ridge, lasso):
+
+Find the $\beta_0, \beta_1, \ldots, \beta_p$ that maximize $M$ subject to:
+
+- $y_i (\beta_0 + \beta_1 x_{i1} + \ldots + \beta_p x_{ip}) \ge M$ for all $i = 1, \ldots, n$.
+- $\sum_{j = 1}^p \beta_j^2 = 1$
+
+That is, all points are beyond the margin, as measured in Euclidean distance.
+
+
+## Noisy data {.build}
+
+<img src = "../figs/noisy-data.png" width = 750>
+
+Hard margins can lead to a classifier that is not robust to outliers.
+
+Solution: use a *soft* margin (this is the first Big Idea).
+
+
+## {.build .smaller}
+
+<img src = "../figs/soft-margin.png" width = 750>
+
+Find the $\beta, \epsilon_i$ that maximize $M$ subject to:
+
+- $y_i (\beta_0 + \beta_1 x_{i1} + \ldots + \beta_p x_{ip}) \ge M(1 - \epsilon_i)$ for all $i = 1, \ldots, n$.
+- $\epsilon_i \ge 0$, $\sum_{i = 1}^n \epsilon_i \le C$
+- $\sum_{j = 1}^p \beta_j^2 = 1$
+
+Where $C$ is your fudge factor budget.
+
+#
+
+## {.flexbox .vcenter}
+
+<img src = "../figs/svm-changing-C.png" width = 600>
+
+
+## The Non-separable Case
+
+
