@@ -14,6 +14,10 @@
 
 \subsection*{Separating planes}
 
+% for next time: start with a 1D example and ask for a formal rule. that will
+% get them used to the formalization before the 2D example, and then you can return
+% to the 1D non separable case when you discuss the expansion of the feature space.
+
 The two scatterplots below represent two training data sets where there are two predictors, $X_1$ and $X_2$, and a two class response, $Y \in \{\textrm{red}, \textrm{blue} \}$. Use a straight edge to draw a decision boundary that you expect to minimize the testing misclassification rate. Below each image write down the formal geometric \emph{rule} that you used to construct a decision boundary between the two classes.
 
 \vspace{5mm}
