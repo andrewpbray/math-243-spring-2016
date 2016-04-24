@@ -60,7 +60,7 @@ Takehome during finals week
 Your goal is to find a data set of interest to you and develop insight into it by applying the principles and techniques of statistical learning. This is a group project (3 students in a group) that has two deliverables: a single Rmd research report that is submitted via GitHub and a 10-15 minute presentation.
 
 **Research Report**  
-April 29th 1 pm (template invite)
+April 29th 1 pm: [Template]({{ site.baseurl }}/assets/week-13/project-template.html) ([invite](https://classroom.github.com/assignment-invitations/0edee9f057f47c56051d1cfbdd729298))
 
 **Presentations**  
 April 27 and 29th in class
