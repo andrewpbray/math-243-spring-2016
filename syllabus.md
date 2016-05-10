@@ -53,7 +53,7 @@ Friday, February 26 2016
 Friday, April 8th (takehome)
 
 **Final**  
-Takehome during finals week
+Takehome during finals week ([link]({{ site.baseurl }}/assets/week-13/final.html))
 
 #### Project
 
